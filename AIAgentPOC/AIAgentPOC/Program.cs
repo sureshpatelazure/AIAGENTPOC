@@ -1,7 +1,12 @@
-﻿internal class Program
+﻿using AIAgentPOC.SemanticKernal;
+using AIAgentPOC.SingleAIAgent;
+
+internal class Program
 {
     private static async Task Main(string[] args)
     {
-        Console.WriteLine("Hello World");
+        IAIConnectorService aIConnectorService = new OllamaKernel();
+        SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService);
+        await singleAIAgent.RunAgentForSingleConversation();
     }
 }   
