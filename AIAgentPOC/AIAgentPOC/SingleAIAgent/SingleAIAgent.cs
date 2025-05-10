@@ -30,9 +30,8 @@ namespace AIAgentPOC.SingleAIAgent
 
             ChatCompletionAgent agent = CreateAgent();
 
-
             ChatHistory chat = new ChatHistory();
-            chat.Add(new ChatMessageContent(AuthorRole.User, "What is the difference between a class and a record?"));
+            chat.Add(new ChatMessageContent(AuthorRole.User, "What is the difference between a class and a structure in 10-15 sentence?"));
 
             ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
 
@@ -52,7 +51,7 @@ namespace AIAgentPOC.SingleAIAgent
         {
             ChatCompletionAgent agent = new()
             {
-                Instructions = "Answer questions about c# and .net",
+                Instructions = "Answer questions about c#",
                 Name = "C# Agent",
                 Kernel = _Kernel
             };
