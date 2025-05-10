@@ -1,4 +1,5 @@
-﻿using AIAgentPOC.SemanticKernal;
+﻿using AIAgentPOC.PromptAIAgent;
+using AIAgentPOC.SemanticKernal;
 using AIAgentPOC.SingleAIAgent;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,9 +12,12 @@ internal class Program
         IAIConnectorService aIConnectorService = new OllamaKernel();
         IConfiguration configuration = BuildConfiguration();
 
-        SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
-       // await singleAIAgent.RunAgentForSingleConversation();
-        await singleAIAgent.RunAgentForMultiPleConversation();
+        // SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
+        // await singleAIAgent.RunAgentForSingleConversation();
+        // await singleAIAgent.RunAgentForMultiPleConversation();
+
+        PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
+        await promptAIAgentprompt.RunAgentForMultiPleConversation();
     }
 
     private static IConfiguration BuildConfiguration()
