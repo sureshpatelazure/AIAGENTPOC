@@ -12,6 +12,7 @@ internal class Program
         IConfiguration configuration = BuildConfiguration();
 
         SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
+       // await singleAIAgent.RunAgentForSingleConversation();
         await singleAIAgent.RunAgentForMultiPleConversation();
     }
 

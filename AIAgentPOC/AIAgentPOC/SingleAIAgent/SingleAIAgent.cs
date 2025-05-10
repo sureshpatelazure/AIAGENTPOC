@@ -32,7 +32,7 @@ namespace AIAgentPOC.SingleAIAgent
             ChatCompletionAgent agent = CreateAgent(GetAIAgentInput("Agent"));
 
             ChatHistory chat = new ChatHistory();
-            chat.Add(new ChatMessageContent(AuthorRole.User, "What is the difference between a class and a structure in 10-15 sentence?"));
+            chat.Add(new ChatMessageContent(AuthorRole.User, "Who are you?"));
 
             ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
 
@@ -101,7 +101,7 @@ namespace AIAgentPOC.SingleAIAgent
         private AIAgentInput GetAIAgentInput(string Name)
         {
             AIAgentInput aIAgentInput = new AIAgentInput();
-            aIAgentInput.Instructions = "Answer questions about C#";
+            aIAgentInput.Instructions = "Answer questions about C# Language. Please ignore questions which are not related to C# language and inform user.";
             aIAgentInput.Name = "C# Agent";
             aIAgentInput.Kernel = _Kernel;
 
