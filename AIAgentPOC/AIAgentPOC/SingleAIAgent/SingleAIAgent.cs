@@ -42,6 +42,45 @@ namespace AIAgentPOC.SingleAIAgent
                 Console.WriteLine(response.Content);
             }
         }
+
+        public async Task RunAgentForMultiPleConversation()
+        {
+            ChatCompletionAgent agent = CreateAgent(GetAIAgentInput("Agent"));
+            ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
+
+            bool isComplete = false;
+
+            do
+            {
+                Console.WriteLine();
+                Console.Write("User> ");
+                string input = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    continue;
+                }
+
+                if (input.Trim().Equals("EXIT", StringComparison.OrdinalIgnoreCase))
+                {
+                    isComplete = true;
+                    break;
+                }
+
+                var message = new ChatMessageContent(AuthorRole.User, input);
+
+                Console.WriteLine();
+                Console.WriteLine("AI Agent> Thinking.......");
+
+                await foreach (ChatMessageContent response in agent.InvokeAsync(message, chatHistoryAgentThread))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(response.Content);
+                }
+
+
+            } while (!isComplete);
+        }
         private Kernel CreateKernel()
         {
             return _aIConnectorService.BuildChatCompletionKernel(_configuration);
