@@ -71,15 +71,18 @@ namespace AIAgentPOC.SingleAIAgent
 
                 Console.WriteLine();
                 Console.WriteLine("AI Agent> Thinking.......");
+                Console.WriteLine();
 
-                await foreach (ChatMessageContent response in agent.InvokeAsync(message, chatHistoryAgentThread))
+                await foreach (StreamingChatMessageContent response in agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
                 {
-                    Console.WriteLine();
-                    Console.WriteLine(response.Content);
+                    Console.Write(response.Content);
                 }
 
+                Console.WriteLine();
 
             } while (!isComplete);
+
+            await chatHistoryAgentThread.DeleteAsync();
         }
         private Kernel CreateKernel()
         {

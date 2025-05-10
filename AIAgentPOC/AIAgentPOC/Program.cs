@@ -12,12 +12,12 @@ internal class Program
         IAIConnectorService aIConnectorService = new OllamaKernel();
         IConfiguration configuration = BuildConfiguration();
 
-        // SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
+         SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
         // await singleAIAgent.RunAgentForSingleConversation();
-        // await singleAIAgent.RunAgentForMultiPleConversation();
+         await singleAIAgent.RunAgentForMultiPleConversation();
 
-        PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
-        await promptAIAgentprompt.RunAgentForMultiPleConversation();
+       // PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
+       // await promptAIAgentprompt.RunAgentForMultiPleConversation();
     }
 
     private static IConfiguration BuildConfiguration()
