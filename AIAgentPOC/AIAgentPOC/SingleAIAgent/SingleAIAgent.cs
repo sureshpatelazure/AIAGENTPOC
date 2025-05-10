@@ -4,20 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AIAgentPOC.SemanticKernal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
+using static OllamaSharp.OllamaApiClient;
 
 namespace AIAgentPOC.SingleAIAgent
 {
     public class SingleAIAgent
     {
+        IConfiguration _configuration;
         IAIConnectorService _aIConnectorService;
         Kernel _Kernel;
 
-        public SingleAIAgent(IAIConnectorService aIConnectorService)
+        public SingleAIAgent(IAIConnectorService aIConnectorService, IConfiguration configuration)
         {
+            _configuration = configuration;
             _aIConnectorService = aIConnectorService;
             _Kernel = CreateKernel();
         }
@@ -41,7 +45,7 @@ namespace AIAgentPOC.SingleAIAgent
 
         private Kernel CreateKernel()
         {
-            return _aIConnectorService.BuildChatCompletionKernel();
+            return _aIConnectorService.BuildChatCompletionKernel(_configuration);
         }
 
         private ChatCompletionAgent CreateAgent()

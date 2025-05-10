@@ -1,4 +1,5 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.SemanticKernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace AIAgentPOC.SemanticKernal
 {
     public class HuggingFace : IAIConnectorService
     {
-        public Kernel BuildChatCompletionKernel()
+        public Kernel BuildChatCompletionKernel(IConfiguration configuration)
         {
             throw new NotImplementedException();
         }
