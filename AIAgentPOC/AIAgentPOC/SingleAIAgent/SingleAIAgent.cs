@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AIAgentPOC.Model;
 using AIAgentPOC.SemanticKernal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
@@ -28,7 +29,7 @@ namespace AIAgentPOC.SingleAIAgent
         public async Task RunAgentForSingleConversation()
         {
 
-            ChatCompletionAgent agent = CreateAgent();
+            ChatCompletionAgent agent = CreateAgent(GetAIAgentInput("Agent"));
 
             ChatHistory chat = new ChatHistory();
             chat.Add(new ChatMessageContent(AuthorRole.User, "What is the difference between a class and a structure in 10-15 sentence?"));
@@ -41,22 +42,31 @@ namespace AIAgentPOC.SingleAIAgent
                 Console.WriteLine(response.Content);
             }
         }
-
         private Kernel CreateKernel()
         {
             return _aIConnectorService.BuildChatCompletionKernel(_configuration);
         }
 
-        private ChatCompletionAgent CreateAgent()
+        private ChatCompletionAgent CreateAgent(AIAgentInput agentInput)
         {
             ChatCompletionAgent agent = new()
             {
-                Instructions = "Answer questions about c#",
-                Name = "C# Agent",
-                Kernel = _Kernel
+                Instructions = agentInput.Instructions,
+                Name = agentInput.Name,
+                Kernel = agentInput.Kernel
             };
 
             return agent;
+        }
+
+        private AIAgentInput GetAIAgentInput(string Name)
+        {
+            AIAgentInput aIAgentInput = new AIAgentInput();
+            aIAgentInput.Instructions = "Answer questions about C#";
+            aIAgentInput.Name = "C# Agent";
+            aIAgentInput.Kernel = _Kernel;
+
+            return aIAgentInput;
         }
     }
 }
