@@ -1,4 +1,5 @@
-﻿using AIAgentPOC.PromptAIAgent;
+﻿using AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent;
+using AIAgentPOC.PromptAIAgent;
 using AIAgentPOC.SemanticKernal;
 using AIAgentPOC.SingleAIAgent;
 using Microsoft.Extensions.Configuration;
@@ -12,12 +13,16 @@ internal class Program
         IAIConnectorService aIConnectorService = new OllamaKernel();
         IConfiguration configuration = BuildConfiguration();
 
-         SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
+        // SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
         // await singleAIAgent.RunAgentForSingleConversation();
-         await singleAIAgent.RunAgentForMultiPleConversation();
+        //await singleAIAgent.RunAgentForMultiPleConversation();
 
-       // PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
-       // await promptAIAgentprompt.RunAgentForMultiPleConversation();
+        // PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
+        // await promptAIAgentprompt.RunAgentForMultiPleConversation();
+
+        PizzaAIAgent pizzaAIAgent = new PizzaAIAgent(aIConnectorService, configuration);
+       await pizzaAIAgent.StartPizzaOrder();
+
     }
 
     private static IConfiguration BuildConfiguration()

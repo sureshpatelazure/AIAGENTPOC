@@ -18,7 +18,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
         IAIConnectorService _aIConnectorService;
         Kernel _Kernel;
 
-        public PizzaAIAgent (IConfiguration configuration, IAIConnectorService aIConnectorService, Kernel kernel)
+        public PizzaAIAgent (IAIConnectorService aIConnectorService, IConfiguration configuration)
         {
             _configuration = configuration;
             _aIConnectorService = aIConnectorService;
@@ -70,6 +70,8 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
 
             ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
 
+            await IntroduceAIAgent(agent, chatHistoryAgentThread);
+
             bool isComplete = false;
 
             do
@@ -107,5 +109,21 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
             await chatHistoryAgentThread.DeleteAsync();
         }
        
+        private async Task IntroduceAIAgent(ChatCompletionAgent agent, ChatHistoryAgentThread chatHistoryAgentThread) {
+
+            string input = "Who are you?";
+            var message = new ChatMessageContent(AuthorRole.User, input);
+
+            Console.WriteLine();
+            Console.WriteLine("Assistant>");
+            Console.WriteLine();
+
+            await foreach (StreamingChatMessageContent response in agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
+            {
+                Console.Write(response.Content);
+            }
+
+            Console.WriteLine();
+        }
     }
 }
