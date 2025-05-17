@@ -104,7 +104,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
                 var message = new ChatMessageContent(AuthorRole.User, input);
 
                 Console.WriteLine();
-                Console.WriteLine("Assistant> Thinking.......");
+                Console.WriteLine("Assistant> Please Wait.......");
                 Console.WriteLine();
 
                 await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
@@ -125,7 +125,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
             var message = new ChatMessageContent(AuthorRole.User, input);
 
             Console.WriteLine();
-            Console.Write("Assistant>");
+            Console.Write("Assistant>Please Wait.....");
             
             await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
             {
