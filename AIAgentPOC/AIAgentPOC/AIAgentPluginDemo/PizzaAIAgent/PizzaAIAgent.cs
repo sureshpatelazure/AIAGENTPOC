@@ -1,4 +1,5 @@
-﻿using AIAgentPOC.Model;
+﻿using AIAgentPOC.AIAgentPluginDemo.Plugin;
+using AIAgentPOC.Model;
 using AIAgentPOC.SemanticKernal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
@@ -17,17 +18,22 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
         IConfiguration _configuration;
         IAIConnectorService _aIConnectorService;
         Kernel _Kernel;
+        ChatCompletionAgent _agent;
 
         public PizzaAIAgent (IAIConnectorService aIConnectorService, IConfiguration configuration)
         {
             _configuration = configuration;
             _aIConnectorService = aIConnectorService;
             _Kernel = CreateKernel();
+            _agent =  CreateAgent();
         }
 
         private Kernel CreateKernel()
         {
-            return _aIConnectorService.BuildChatCompletionKernel(_configuration);
+            List<Object> Plugins =  new List<object>();
+            Plugins.Add(new PizzaPlugin());
+
+            return _aIConnectorService.BuildChatCompletionKernelWithPlugin(_configuration, Plugins);
         }
 
         private AIAgentInput GetAgentProfile()
@@ -59,6 +65,12 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
                 Instructions = agentInput.Instructions,
                 Name = agentInput.Name,
                 Kernel = agentInput.Kernel,
+                Arguments = new KernelArguments(
+                     new PromptExecutionSettings
+                     {
+                         FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+                     }
+                )
             };
 
             return agent;
@@ -66,11 +78,9 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
 
         public async Task StartPizzaOrder()
         {
-            ChatCompletionAgent agent = CreateAgent();
-
             ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
 
-            await IntroduceAIAgent(agent, chatHistoryAgentThread);
+            await IntroduceAIAgent(chatHistoryAgentThread);
 
             bool isComplete = false;
 
@@ -97,7 +107,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
                 Console.WriteLine("Assistant> Thinking.......");
                 Console.WriteLine();
 
-                await foreach (StreamingChatMessageContent response in agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
+                await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
                 {
                     Console.Write(response.Content);
                 }
@@ -109,7 +119,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
             await chatHistoryAgentThread.DeleteAsync();
         }
        
-        private async Task IntroduceAIAgent(ChatCompletionAgent agent, ChatHistoryAgentThread chatHistoryAgentThread) {
+        private async Task IntroduceAIAgent(ChatHistoryAgentThread chatHistoryAgentThread) {
 
             string input = "Who are you?";
             var message = new ChatMessageContent(AuthorRole.User, input);
@@ -117,7 +127,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
             Console.WriteLine();
             Console.Write("Assistant>");
             
-            await foreach (StreamingChatMessageContent response in agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
+            await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
             {
                 Console.Write(response.Content);
             }

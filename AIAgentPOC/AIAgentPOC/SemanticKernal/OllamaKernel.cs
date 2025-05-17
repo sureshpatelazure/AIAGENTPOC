@@ -18,5 +18,20 @@ namespace AIAgentPOC.SemanticKernal
                 new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
             return builder.Build();
         }
+
+        public Kernel BuildChatCompletionKernelWithPlugin(IConfiguration configuration, List<Object> Plugins) {
+
+            var builder = Kernel.CreateBuilder();
+            builder.AddOllamaChatCompletion(configuration.GetSection("Ollama")["ModelId"].ToString(),
+                new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
+
+            foreach(var plugin in Plugins)
+            {
+                builder.Plugins.AddFromObject(plugin);
+            }
+          
+            return builder.Build();
+
+        }
     }
 }

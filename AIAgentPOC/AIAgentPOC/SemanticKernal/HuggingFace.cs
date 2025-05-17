@@ -14,5 +14,10 @@ namespace AIAgentPOC.SemanticKernal
         {
             throw new NotImplementedException();
         }
+
+        public Kernel BuildChatCompletionKernelWithPlugin(IConfiguration configuration, List<object> Plugins)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

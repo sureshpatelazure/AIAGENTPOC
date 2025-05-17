@@ -12,5 +12,6 @@ namespace AIAgentPOC.SemanticKernal
     public interface IAIConnectorService
     {
         public Kernel BuildChatCompletionKernel(IConfiguration configuration);
+        public Kernel BuildChatCompletionKernelWithPlugin(IConfiguration configuration, List<Object> Plugins);
     }
 }
