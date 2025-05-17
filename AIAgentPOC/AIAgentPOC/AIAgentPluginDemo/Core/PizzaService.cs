@@ -14,6 +14,10 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
 
         public List<Pizza> GetPizzaMenu()
         {
+            Console.WriteLine("");
+            Console.WriteLine("Calling GetPizzaMenu");
+            Console.WriteLine("");
+
             List<Pizza> pizzas = new List<Pizza>();
             pizzas.Add(new Pizza { Id = 1, Name = "Margherita Pizza", Price = 100 });
             pizzas.Add(new Pizza { Id = 2, Name = "Paneer Pizza", Price = 200 });
@@ -26,6 +30,10 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
 
         public List<PizzaTopping> GetPizzaToppingMenu()
         {
+            Console.WriteLine("");
+            Console.WriteLine("Calling GetPizzaToppingMenu");
+            Console.WriteLine("");
+
             List<PizzaTopping> pizzaToppings = new List<PizzaTopping>();
             pizzaToppings.Add(new PizzaTopping { Id = 1, Name = "Extra Cheeze" });
             pizzaToppings.Add(new PizzaTopping { Id = 2, Name = "Onion" });
@@ -36,6 +44,10 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
         }
 
         public List<PizzaSize> GetPizzaSizeMenu() {
+
+            Console.WriteLine("");
+            Console.WriteLine("Calling GetPizzaSizeMenu");
+            Console.WriteLine("");
 
             List<PizzaSize> pizzaSizes = new List<PizzaSize>();
             pizzaSizes.Add(new PizzaSize { Id = 1, Size = "Small" });
@@ -52,7 +64,11 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
             int quantity, 
             string specialInstructions)
         {
-      
+
+            Console.WriteLine("");
+            Console.WriteLine("Calling AddPizzaToCart");
+            Console.WriteLine("");
+
             PizzaCart pizzaCart = new PizzaCart();
             pizzaCart.Id = ++_cartId;
             pizzaCart.Pizza= pizza;
@@ -69,6 +85,10 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
 
         public void RemovePizzaFromCart(int CartId)
         {
+            Console.WriteLine("");
+            Console.WriteLine("Calling RemovePizzaFromCart");
+            Console.WriteLine("");
+
             if (_cartList != null)
             {
                 PizzaCart pizaCart = _cartList.FirstOrDefault(p => p.Id == _cartId);
@@ -81,6 +101,9 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
 
         public List<PizzaCart> GetCart()
         {
+            Console.WriteLine("");
+            Console.WriteLine("Calling GetCart");
+            Console.WriteLine("");
             //  Console.WriteLine("Calling GetCart");
             return _cartList;
 
@@ -88,6 +111,9 @@ namespace AIAgentPOC.AIAgentPluginDemo.Core.Service
 
         public void Checkout(int cartId)
         {
+            Console.WriteLine("");
+            Console.WriteLine("Calling Checkout");
+            Console.WriteLine("");
             //  Console.WriteLine("Calling Checkout");
             RemovePizzaFromCart(cartId);
         }
