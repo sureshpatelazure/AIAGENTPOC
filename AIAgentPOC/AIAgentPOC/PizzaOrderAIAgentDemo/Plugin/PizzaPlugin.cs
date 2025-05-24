@@ -1,9 +1,9 @@
-﻿using AIAgentPOC.PizzaAIAgentDemo.Core.Model;
-using AIAgentPOC.PizzaAIAgentDemo.Core.Service;
+﻿using AIAgentPOC.PizzaOrderAIAgentDemo.Core.Model;
+using AIAgentPOC.PizzaOrderAIAgentDemo.Core.Service;
 using Microsoft.SemanticKernel;
 using System.ComponentModel;
 
-namespace AIAgentPOC.PizzaAIAgentDemo.Plugin
+namespace AIAgentPOC.PizzaOrderAIAgentDemo.Plugin
 {
     public class PizzaPlugin
     {

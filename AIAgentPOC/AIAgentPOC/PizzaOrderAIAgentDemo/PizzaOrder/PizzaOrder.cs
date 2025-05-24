@@ -1,7 +1,7 @@
 ﻿using AIAgentLib;
 using AIAgentLib.Model;
 
-namespace AIAgentPOC.AIAgentPluginDemo.PizzaOrder
+namespace AIAgentPOC.PizzaOrderAIAgentDemo.PizzaOrder
 {
     public class PizzaOrder
     {
@@ -10,7 +10,7 @@ namespace AIAgentPOC.AIAgentPluginDemo.PizzaOrder
         {
             // Initialize the AI agent with the model ID and YAML content
             var ollamaConfig = Common.GetOllamaConfiguration();
-            string yamlContent = Common.GetYamlContent("PizzaOrder.yaml");
+            string yamlContent = Common.GetYamlContent("C:\\GenAI\\GitHub Project\\AIAgentPOC\\AIAgentPOC\\PizzaOrderAIAgentDemo\\Prompt\\PizzaOrder.yaml");
             _chatCompletionStartup = new ChatCompletionStartup(AIConnectorServiceType.Ollama, ollamaConfig, yamlContent);
         }
 

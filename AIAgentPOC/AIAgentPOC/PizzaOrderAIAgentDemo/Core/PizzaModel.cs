@@ -1,4 +1,4 @@
-﻿namespace AIAgentPOC.PizzaAIAgentDemo.Core.Model
+﻿namespace AIAgentPOC.PizzaOrderAIAgentDemo.Core.Model
 {
     public class Pizza
     {

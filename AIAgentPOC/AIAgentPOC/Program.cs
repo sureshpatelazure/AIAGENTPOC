@@ -1,19 +1,12 @@
-﻿internal class Program
+﻿using AIAgentPOC.PizzaOrderAIAgentDemo.PizzaOrder;
+
+internal class Program
 {
     private static async Task Main(string[] args)
     {
-       // IAIConnectorService aIConnectorService = new OllamaKernel();
-       // IConfiguration configuration = BuildConfiguration();
 
-       // // SingleAIAgent singleAIAgent = new SingleAIAgent(aIConnectorService, configuration);
-       // // await singleAIAgent.RunAgentForSingleConversation();
-       // //await singleAIAgent.RunAgentForMultiPleConversation();
-
-       // // PromptAIAgent promptAIAgentprompt = new PromptAIAgent(aIConnectorService, configuration);
-       // // await promptAIAgentprompt.RunAgentForMultiPleConversation();
-
-       // PizzaAIAgent pizzaAIAgent = new PizzaAIAgent(aIConnectorService, configuration);
-       //await pizzaAIAgent.StartPizzaOrder();
+        PizzaOrder pizzaorder = new PizzaOrder();
+        await pizzaorder.StartPizzaOrder();
 
     }
 

@@ -29,12 +29,11 @@ namespace AIAgentPOC
                 Uri = ollamaSection.GetValue<string>("Url")
             };
         }
-        public static string GetYamlContent(string fileName)
+        public static string GetYamlContent(string filePath)
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PromptYamlFiles", fileName);
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException($"The YAML file '{fileName}' was not found at path '{filePath}'.");
+                throw new FileNotFoundException($"The YAML file was not found at path '{filePath}'.");
             }
             return File.ReadAllText(filePath);
         }
