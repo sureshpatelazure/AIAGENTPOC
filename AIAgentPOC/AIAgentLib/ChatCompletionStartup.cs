@@ -11,49 +11,66 @@ namespace AIAgentLib
     {
         IChatCompletionService _chatCompletionService;
 
-        public ChatCompletionStartup(AIConnectorServiceType aIConnectorServiceType,
-            AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
-            string yamlContent)
+        private void InitializeChatCompletionService(
+           AIConnectorServiceType aIConnectorServiceType,
+           AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
+           string yamlContent,
+           List<object>? plugins)
         {
-            Kernel kernel = CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration);
+            Kernel kernel = plugins == null
+                ? CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration)
+                : CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration, plugins);
+
             ChatCompletionAgent agent = CreateAgent(kernel, yamlContent);
             _chatCompletionService = new ChatCompletionService(agent);
         }
 
-        public ChatCompletionStartup(AIConnectorServiceType aIConnectorServiceType,
-            AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
-            string yamlContent, List<object> Plugins)
+        public ChatCompletionStartup(
+                AIConnectorServiceType aIConnectorServiceType,
+                AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
+                string yamlContent)
         {
-            Kernel kernel = CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration, Plugins);
-            ChatCompletionAgent agent = CreateAgent(kernel, yamlContent);
-            _chatCompletionService = new ChatCompletionService(agent);
+            InitializeChatCompletionService(
+                aIConnectorServiceType,
+                aIConnectorServiceConfiguration,
+                yamlContent,
+                null);
+        }
+
+        public ChatCompletionStartup(
+            AIConnectorServiceType aIConnectorServiceType,
+            AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
+            string yamlContent,
+            List<object> Plugins)
+        {
+            InitializeChatCompletionService(
+                aIConnectorServiceType,
+                aIConnectorServiceConfiguration,
+                yamlContent,
+                Plugins);
+        }
+
+
+        private IAIServiceConnector GetAIServiceConnector(AIConnectorServiceType aIConnectorServiceType)
+        {
+            return aIConnectorServiceType switch
+            {
+                AIConnectorServiceType.Ollama => new OllamaKernelChatCompletionService(),
+                _ => throw new ArgumentException($"Unsupported AI connector service type: {aIConnectorServiceType}")
+            };
         }
 
         private Kernel CreateKernel(AIConnectorServiceType aIConnectorServiceType, AIConnectorServiceConfiguration aIConnectorServiceConfiguration)
         {
-            IAIServiceConnector aIConnectorService = aIConnectorServiceType switch
-            {
-                AIConnectorServiceType.Ollama => new OllamaKernelChatCompletionService(),
-                _ => throw new ArgumentException($"Unsupported AI connector service type: {aIConnectorServiceType}")
-            };
-
+            IAIServiceConnector aIConnectorService = GetAIServiceConnector(aIConnectorServiceType);
             return aIConnectorService.BuildChatCompletion(aIConnectorServiceConfiguration);
-
         }
 
         private Kernel CreateKernel(AIConnectorServiceType aIConnectorServiceType, AIConnectorServiceConfiguration aIConnectorServiceConfiguration, List<object> Plugins)
         {
-            IAIServiceConnector aIConnectorService = aIConnectorServiceType switch
-            {
-                AIConnectorServiceType.Ollama => new OllamaKernelChatCompletionService(),
-                _ => throw new ArgumentException($"Unsupported AI connector service type: {aIConnectorServiceType}")
-            };
-
+            IAIServiceConnector aIConnectorService = GetAIServiceConnector(aIConnectorServiceType);
             return aIConnectorService.BuildChatCompletion(aIConnectorServiceConfiguration, Plugins);
-
-
         }
-
         private ChatCompletionAgent CreateAgent(Kernel kernel, string yamlContent)
         {
             IAIAgent aIAgent = new AIAgent.AIAgent();

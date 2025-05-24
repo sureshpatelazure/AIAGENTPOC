@@ -21,33 +21,7 @@ namespace AIAgentPOC.PizzaOrderAIAgentDemo.PizzaOrder
 
         public async Task StartPizzaOrder()
         {
-
-            bool isComplete = false;
-
-            do
-            {
-                Console.WriteLine();
-                Console.Write("User> ");
-                string input = Console.ReadLine();
-
-                if (string.IsNullOrWhiteSpace(input))
-                {
-                    continue;
-                }
-
-                if (input.Trim().Equals("EXIT", StringComparison.OrdinalIgnoreCase))
-                {
-                    isComplete = true;
-                    break;
-                }
-
-                var response = await _chatCompletionStartup.ChatAIAgent(input); 
-                Console.Write(response);
-                
-
-                Console.WriteLine();
-
-            } while (!isComplete);
+            Common.ChatWithAgent(_chatCompletionStartup).GetAwaiter().GetResult(); 
 
         }
     }
