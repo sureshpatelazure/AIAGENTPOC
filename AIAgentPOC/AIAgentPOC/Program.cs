@@ -1,19 +1,23 @@
 ﻿using AIAgentPOC;
 using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
+using AIAgentPOC.TripPlannerAIAgentDemo.Plugin;
 
 internal class Program
 {
     private static async Task Main(string[] args)
     {
-
-        //PizzaOrder pizzaorder = new PizzaOrder();
-        //await pizzaorder.StartPizzaOrder();
-
         List<Object> Plugins = new List<object>();
-        Plugins.Add(new PizzaPlugin());
-        await  DemoApplication.Run("PizzaOrder", Plugins);
 
+        // Pizza  Order
+        //Plugins.Add(new PizzaPlugin());
+        //await  DemoApplication.Run("PizzaOrder", Plugins);
+
+        Plugins.Add(new TripPlanner());
+        Plugins.Add(new TimeTeller());
+        Plugins.Add(new ElectricCar());
+        Plugins.Add(new WeatherForecaster());
+
+        await DemoApplication.Run("TripPlanner", Plugins);
     }
-
 
 }   
