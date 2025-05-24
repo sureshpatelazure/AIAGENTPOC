@@ -5,7 +5,7 @@ using Microsoft.SemanticKernel.Connectors.Ollama;
 
 namespace AIAgentLib.SemanticKernalService
 {
-    public class OllamaKernelService : IAIConnectorService
+    public class OllamaKernelChatCompletionService : IAIConnectorService
     {
         public Kernel BuildChatCompletion<T>(T connectorConfiguration) where T : AIConnectorServiceConfiguration
         {
