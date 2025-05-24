@@ -1,5 +1,4 @@
 ﻿using AIAgentPOC;
-using AIAgentPOC.PizzaOrderAIAgentDemo.PizzaOrder;
 using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
 
 internal class Program
