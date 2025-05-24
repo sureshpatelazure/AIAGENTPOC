@@ -1,5 +1,4 @@
 ﻿using AIAgentLib.Model;
-using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
 
 namespace AIAgentLib.SemanticKernalService

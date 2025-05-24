@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AIAgentPOC.AIAgentPluginDemo.Core.Service;
-using AIAgentPOC.AIAgentPluginDemo.Core.Model;
+﻿using AIAgentPOC.PizzaAIAgentDemo.Core.Model;
+using AIAgentPOC.PizzaAIAgentDemo.Core.Service;
 using Microsoft.SemanticKernel;
 using System.ComponentModel;
 
-namespace AIAgentPOC.AIAgentPluginDemo.Plugin
+namespace AIAgentPOC.PizzaAIAgentDemo.Plugin
 {
     public class PizzaPlugin
     {

@@ -1,7 +1,5 @@
 ﻿using AIAgentLib.Model;
-using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.Ollama;
 
 namespace AIAgentLib.SemanticKernalService
 {
