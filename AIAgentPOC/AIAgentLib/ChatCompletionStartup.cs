@@ -26,7 +26,7 @@ namespace AIAgentLib
         }
         private Kernel CreateKernel(AIConnectorServiceType aIConnectorServiceType, AIConnectorServiceConfiguration aIConnectorServiceConfiguration)
         {
-            IAIConnectorService aIConnectorService = aIConnectorServiceType switch
+            IAIServiceConnector aIConnectorService = aIConnectorServiceType switch
             {
                 AIConnectorServiceType.Ollama => new OllamaKernelChatCompletionService(),
                 _ => throw new ArgumentException($"Unsupported AI connector service type: {aIConnectorServiceType}")
@@ -46,7 +46,7 @@ namespace AIAgentLib
         {
             if (_chatCompletionService == null)
                 throw new InvalidOperationException("ChatCompletionService is not initialized.");
-            return await _chatCompletionService.ChatAIAgent(userInput);
+            return await _chatCompletionService.ChatWithAIAgent(userInput);
 
         }
     }

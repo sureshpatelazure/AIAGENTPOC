@@ -8,7 +8,7 @@ namespace AIAgentLib.AIService
 {
     public interface IChatCompletionService
     {
-        public Task<string?> ChatAIAgent(string userInput);
+        public Task<string?> ChatWithAIAgent(string userInput);
 
 
     }

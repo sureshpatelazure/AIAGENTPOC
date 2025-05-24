@@ -5,7 +5,7 @@ using Microsoft.SemanticKernel.Connectors.Ollama;
 
 namespace AIAgentLib.SemanticKernalService
 {
-    public class OllamaKernelChatCompletionService : IAIConnectorService
+    public class OllamaKernelChatCompletionService : IAIServiceConnector
     {
         public Kernel BuildChatCompletion<T>(T connectorConfiguration) where T : AIConnectorServiceConfiguration
         {
@@ -19,7 +19,6 @@ namespace AIAgentLib.SemanticKernalService
             {
                 throw new ArgumentException($"Unsupported model type: {typeof(T).Name}");
             }
-            
         }
     }
 }

@@ -15,7 +15,7 @@ namespace AIAgentLib.AIService
             _chatHistoryAgentThread = new ChatHistoryAgentThread();
         }
 
-        public async Task<string?> ChatAIAgent(string userInput)
+        public async Task<string?> ChatWithAIAgent(string userInput)
         {
             if (string.IsNullOrWhiteSpace(userInput))
                 return null;
