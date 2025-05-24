@@ -13,7 +13,12 @@ namespace AIAgentLib.AIAgent
             ChatCompletionAgent agent = new(templateConfig, templateFactory)
             {
                 Kernel = kernel,
-                Arguments = kernelArgument
+                Arguments = new KernelArguments(
+                     new PromptExecutionSettings
+                     {
+                         FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+                     }
+                )
             };
 
             return agent;
