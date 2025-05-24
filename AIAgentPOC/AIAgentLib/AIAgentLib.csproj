@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<NoWarn>$(NoWarn);SKEXP0070</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,5 +13,5 @@
     <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.49.0" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.54.0-alpha" />
   </ItemGroup>
-
+	
 </Project>
