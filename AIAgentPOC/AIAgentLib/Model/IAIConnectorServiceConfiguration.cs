@@ -16,4 +16,11 @@ namespace AIAgentLib.Model
         public string ModelId { get; set; }
         public string Uri { get; set; }
     }
+
+    public enum AIConnectorServiceType
+    {
+        Ollama,
+        AzureOpenAI,
+        OpenAI
+    }   
 }
