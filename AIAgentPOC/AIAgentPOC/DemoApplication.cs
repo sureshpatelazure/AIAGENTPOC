@@ -18,11 +18,14 @@ namespace AIAgentPOC
                 if (string.IsNullOrWhiteSpace(demoApplicationName))
                     throw new ArgumentException("Demo application name cannot be null or empty.", nameof(demoApplicationName));
 
+                // Get Demo Application Configuration
                 var demoConfig = Common.GetDemoApplicationConfiguration(demoApplicationName);
 
+                // Get AI Connector Configuration   
                 var connectorType = Enum.Parse<AIConnectorServiceType>(demoConfig.AIConnectorName, ignoreCase: true);
-                var connectorConfig = GetConnectorConfiguration(connectorType);
+                var connectorConfig = Common. GetConnectorConfiguration(connectorType);
 
+                // Get Prompt Yaml File
                 var yamlContent = Common.GetYamlContent(demoConfig.YamlPromptFilePath);
 
                 if (string.IsNullOrWhiteSpace(yamlContent))
@@ -49,15 +52,6 @@ namespace AIAgentPOC
             }
         }
 
-        private static AIConnectorServiceConfiguration GetConnectorConfiguration(AIConnectorServiceType connectorType)
-        {
-            return connectorType switch
-            {
-                AIConnectorServiceType.Ollama => Common.GetOllamaConfiguration(),
-                // Add more cases here for other connector types as needed
-                _ => throw new InvalidOperationException($"Unsupported AI connector service type: {connectorType}")
-            };
-        }
     }
     public class DemoApplicationConfig
     {

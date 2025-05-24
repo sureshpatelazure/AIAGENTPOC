@@ -20,7 +20,16 @@ namespace AIAgentPOC
             return builder.Build();
         }
 
-        public static OllamaConnectorServiceConfiguration GetOllamaConfiguration()
+        public static AIConnectorServiceConfiguration GetConnectorConfiguration(AIConnectorServiceType connectorType)
+        {
+            return connectorType switch
+            {
+                AIConnectorServiceType.Ollama => Common.GetOllamaConfiguration(),
+                // Add more cases here for other connector types as needed
+                _ => throw new InvalidOperationException($"Unsupported AI connector service type: {connectorType}")
+            };
+        }
+        private static OllamaConnectorServiceConfiguration GetOllamaConfiguration()
         {
             var section = BuildConfiguration().GetSection("AIConnector:Ollama");
             if (!section.Exists())
