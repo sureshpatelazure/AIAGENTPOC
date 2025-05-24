@@ -31,7 +31,7 @@ namespace AIAgentPOC
         }
         public static string GetYamlContent(string fileName)
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "YamlFiles", fileName);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "PromptYamlFiles", fileName);
             if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException($"The YAML file '{fileName}' was not found at path '{filePath}'.");

@@ -1,126 +1,49 @@
-﻿namespace AIAgentPOC.AIAgentPluginDemo.PizzaOrder
+﻿using AIAgentLib;
+using AIAgentLib.Model;
+
+namespace AIAgentPOC.AIAgentPluginDemo.PizzaOrder
 {
     public class PizzaOrder
     {
-        //IConfiguration _configuration;
-        //IAIConnectorService _aIConnectorService;
-        //Kernel _Kernel;
-        //ChatCompletionAgent _agent;
+        private ChatCompletionStartup _chatCompletionStartup;
+        public PizzaOrder()
+        {
+            // Initialize the AI agent with the model ID and YAML content
+            var ollamaConfig = Common.GetOllamaConfiguration();
+            string yamlContent = Common.GetYamlContent("PizzaOrder.yaml");
+            _chatCompletionStartup = new ChatCompletionStartup(AIConnectorServiceType.Ollama, ollamaConfig, yamlContent);
+        }
 
-        //public PizzaAIAgent(IAIConnectorService aIConnectorService, IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //    _aIConnectorService = aIConnectorService;
-        //    _Kernel = CreateKernel();
-        //    _agent = CreateAgent();
-        //}
+        public async Task StartPizzaOrder()
+        {
 
-        //private Kernel CreateKernel()
-        //{
-        //    List<Object> Plugins = new List<object>();
-        //    Plugins.Add(new PizzaPlugin());
+            bool isComplete = false;
 
-        //    return _aIConnectorService.BuildChatCompletionKernelWithPlugin(_configuration, Plugins);
-        //}
+            do
+            {
+                Console.WriteLine();
+                Console.Write("User> ");
+                string input = Console.ReadLine();
 
-        //private AIAgentInput GetAgentProfile()
-        //{
-        //    AIAgentInput aIAgentInput = new AIAgentInput();
-        //    aIAgentInput.Instructions = """
-        //        You are a friendly assistant who will take pizza order from user. 
-        //        Ask user to select pizza, toppings and size beforing adding to cart.
-        //        User can order mulitple pizza.
-        //        Display selected cart before proceding order.
-        //        Ask user for adding/removing pizza from cart before ordering.
-        //        Require user approval for completing order
-        //        If the user doesn't provide enough information for you to complete a order, you will keep asking questions until you have
-        //        enough information to complete the order.
-        //        Display sentence on new line.
-        //        """;
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    continue;
+                }
 
-        //    aIAgentInput.Name = "Pizza Order AI Agent ";
-        //    aIAgentInput.Kernel = _Kernel;
+                if (input.Trim().Equals("EXIT", StringComparison.OrdinalIgnoreCase))
+                {
+                    isComplete = true;
+                    break;
+                }
 
-        //    return aIAgentInput;
-        //}
+                var response = await _chatCompletionStartup.ChatAIAgent(input); 
+                Console.Write(response);
+                
 
-        //private ChatCompletionAgent CreateAgent()
-        //{
-        //    AIAgentInput agentInput = GetAgentProfile();
-        //    ChatCompletionAgent agent = new()
-        //    {
-        //        Instructions = agentInput.Instructions,
-        //        Name = agentInput.Name,
-        //        Kernel = agentInput.Kernel,
-        //        Arguments = new KernelArguments(
-        //             new PromptExecutionSettings
-        //             {
-        //                 FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
-        //             }
-        //        )
-        //    };
+                Console.WriteLine();
 
-        //    return agent;
-        //}
+            } while (!isComplete);
 
-        //public async Task StartPizzaOrder()
-        //{
-        //    ChatHistoryAgentThread chatHistoryAgentThread = new ChatHistoryAgentThread();
-
-        //    await IntroduceAIAgent(chatHistoryAgentThread);
-
-        //    bool isComplete = false;
-
-        //    do
-        //    {
-        //        Console.WriteLine();
-        //        Console.Write("User> ");
-        //        string input = Console.ReadLine();
-
-        //        if (string.IsNullOrWhiteSpace(input))
-        //        {
-        //            continue;
-        //        }
-
-        //        if (input.Trim().Equals("EXIT", StringComparison.OrdinalIgnoreCase))
-        //        {
-        //            isComplete = true;
-        //            break;
-        //        }
-
-        //        var message = new ChatMessageContent(AuthorRole.User, input);
-
-        //        Console.WriteLine();
-        //        Console.WriteLine("Assistant> Please Wait.......");
-        //        Console.WriteLine();
-
-        //        await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
-        //        {
-        //            Console.Write(response.Content);
-        //        }
-
-        //        Console.WriteLine();
-
-        //    } while (!isComplete);
-
-        //    await chatHistoryAgentThread.DeleteAsync();
-        //}
-
-        //private async Task IntroduceAIAgent(ChatHistoryAgentThread chatHistoryAgentThread)
-        //{
-
-        //    string input = "Who are you?";
-        //    var message = new ChatMessageContent(AuthorRole.User, input);
-
-        //    Console.WriteLine();
-        //    Console.Write("Assistant>Please Wait.....");
-
-        //    await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
-        //    {
-        //        Console.Write(response.Content);
-        //    }
-
-        //    Console.WriteLine();
-        //}
+        }
     }
 }
