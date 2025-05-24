@@ -14,16 +14,16 @@ namespace AIAgentPOC.SemanticKernal
         public Kernel BuildChatCompletionKernel(IConfiguration configuration)
         {
             var builder = Kernel.CreateBuilder();
-            builder.AddOllamaChatCompletion(configuration.GetSection("Ollama")["ModelId"].ToString(), 
-                new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
+            //builder.AddOllamaChatCompletion(configuration.GetSection("Ollama")["ModelId"].ToString(), 
+            //    new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
             return builder.Build();
         }
 
         public Kernel BuildChatCompletionKernelWithPlugin(IConfiguration configuration, List<Object> Plugins) {
 
             var builder = Kernel.CreateBuilder();
-            builder.AddOllamaChatCompletion(configuration.GetSection("Ollama")["ModelId"].ToString(),
-                new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
+            //builder.AddOllamaChatCompletion(configuration.GetSection("Ollama")["ModelId"].ToString(),
+            //    new Uri(configuration.GetSection("Ollama")["Url"].ToString()));
 
             foreach(var plugin in Plugins)
             {
