@@ -97,7 +97,6 @@ namespace AIAgentPOC
 
                 Console.WriteLine();
                 Console.Write("AI Agent> Please wait......");
-                Console.WriteLine();
                 var response = await chatCompletionStartup.ChatAIAgent(input);
                 Console.Write("AI Agent>  " + response);
 
