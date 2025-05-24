@@ -1,23 +1,23 @@
-﻿namespace AIAgentPOC.AIAgentPluginDemo.PizzaAIAgent
+﻿namespace AIAgentPOC.AIAgentPluginDemo.PizzaOrder
 {
-    public class PizzaAIAgent
+    public class PizzaOrder
     {
         //IConfiguration _configuration;
         //IAIConnectorService _aIConnectorService;
         //Kernel _Kernel;
         //ChatCompletionAgent _agent;
 
-        //public PizzaAIAgent (IAIConnectorService aIConnectorService, IConfiguration configuration)
+        //public PizzaAIAgent(IAIConnectorService aIConnectorService, IConfiguration configuration)
         //{
         //    _configuration = configuration;
         //    _aIConnectorService = aIConnectorService;
         //    _Kernel = CreateKernel();
-        //    _agent =  CreateAgent();
+        //    _agent = CreateAgent();
         //}
 
         //private Kernel CreateKernel()
         //{
-        //    List<Object> Plugins =  new List<object>();
+        //    List<Object> Plugins = new List<object>();
         //    Plugins.Add(new PizzaPlugin());
 
         //    return _aIConnectorService.BuildChatCompletionKernelWithPlugin(_configuration, Plugins);
@@ -105,15 +105,16 @@
 
         //    await chatHistoryAgentThread.DeleteAsync();
         //}
-       
-        //private async Task IntroduceAIAgent(ChatHistoryAgentThread chatHistoryAgentThread) {
+
+        //private async Task IntroduceAIAgent(ChatHistoryAgentThread chatHistoryAgentThread)
+        //{
 
         //    string input = "Who are you?";
         //    var message = new ChatMessageContent(AuthorRole.User, input);
 
         //    Console.WriteLine();
         //    Console.Write("Assistant>Please Wait.....");
-            
+
         //    await foreach (StreamingChatMessageContent response in _agent.InvokeStreamingAsync(message, chatHistoryAgentThread))
         //    {
         //        Console.Write(response.Content);
