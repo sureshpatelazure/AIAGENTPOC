@@ -22,14 +22,31 @@ namespace AIAgentPOC
 
         public static OllamaConnectorServiceConfiguration GetOllamaConfiguration()
         {
-            var config = BuildConfiguration();
-            var ollamaSection = config.GetSection("Ollama");
+            var section = BuildConfiguration().GetSection("AIConnector:Ollama");
+            if (!section.Exists())
+                throw new InvalidOperationException("Missing configuration for AIConnector:Ollama");
+
             return new OllamaConnectorServiceConfiguration
             {
-                ModelId = ollamaSection.GetValue<string>("ModelId"),
-                Uri = ollamaSection.GetValue<string>("Url")
+                ModelId = section.GetValue<string>("ModelId") ?? throw new InvalidOperationException("ModelId missing"),
+                Uri = section.GetValue<string>("Url") ?? throw new InvalidOperationException("Url missing")
             };
         }
+
+        public static DemoApplicationConfig GetDemoApplicationConfiguration(string appName)
+        {
+            var section = BuildConfiguration().GetSection("DemoApplication").GetSection(appName);
+            if (!section.Exists())
+                throw new InvalidOperationException($"Missing configuration for DemoApplication:{appName}");
+
+            return new DemoApplicationConfig
+            {
+                AIConnectorName = section.GetValue<string>("AIConnectorName") ?? throw new InvalidOperationException("AIConnectorName missing"),
+                YamlPromptFilePath = section.GetValue<string>("YamlPromptFilePath") ?? throw new InvalidOperationException("YamlPromptFilePath missing"),
+                IsPluginPresent = bool.TryParse(section["IsPluginPresent"], out var present) ? present : throw new InvalidOperationException("IsPluginPresent invalid")
+            };
+        }
+
         public static string GetYamlContent(string filePath)
         {
             if (!File.Exists(filePath))
