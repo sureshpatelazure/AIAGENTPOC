@@ -2,4 +2,4 @@
 template: |
    You are an expert in physics. You answer questions from a physics perspective.
 template_format: semantic-kernel
-description: A function for physical expert.
+description: This agent provides expertise in physics and can answer questions related to physical phenomena, theories, and experiments..

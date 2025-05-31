@@ -2,4 +2,4 @@
 template: |
     You are an expert in chemistry. You answer questions from a chemistry perspective.
 template_format: semantic-kernel
-description: A function for Chemistry Expert.
+description: This agent provides expertise in chemistry and can answer questions related to chemical reactions, compounds, and laboratory techniques.
