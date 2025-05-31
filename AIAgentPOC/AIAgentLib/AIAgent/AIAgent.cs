@@ -1,4 +1,5 @@
-﻿using Microsoft.SemanticKernel;
+﻿using AIAgentLib.Helper;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 
 namespace AIAgentLib.AIAgent
@@ -7,6 +8,8 @@ namespace AIAgentLib.AIAgent
     {
         public ChatCompletionAgent CreateAIAgent(Kernel kernel, KernelArguments kernelArgument, string yamlContent)
         {
+            var yamlData = YamlHelper.ReadYaml(yamlContent);
+
             PromptTemplateConfig templateConfig = new PromptTemplateConfig(yamlContent);
             KernelPromptTemplateFactory templateFactory = new KernelPromptTemplateFactory();
 
@@ -18,7 +21,8 @@ namespace AIAgentLib.AIAgent
                      {
                          FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
                      }
-                )
+                ),
+                Description = (string)yamlData["description"]
             };
 
             return agent;
