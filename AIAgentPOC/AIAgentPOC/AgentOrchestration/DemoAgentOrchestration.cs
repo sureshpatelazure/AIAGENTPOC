@@ -67,7 +67,13 @@ namespace AIAgentPOC.AgentOrchestration
                 Plugins);
 
            var result = aIAgents.RunOrchestration(OrchestrationPatterns, yamlContents,userInput);
-           Console.WriteLine($"# RESULT:\n{string.Join("\n\n", result.Select(text => $"{text}"))}");
+
+            Console.WriteLine("Result : ");
+            foreach (var output in result)
+            {
+                Console.WriteLine(output);
+            }   
+            
         }
     }
 }

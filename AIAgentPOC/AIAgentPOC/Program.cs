@@ -19,9 +19,9 @@ internal class Program
         //await DemoApplication.Run("TripPlanner", Plugins);
         
         //Physic expert
-        await DemoApplication.Run("PhysicsExpert");
+       // await DemoApplication.Run("PhysicsExpert");
 
-        // DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
+         DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
     }
 
 }   
