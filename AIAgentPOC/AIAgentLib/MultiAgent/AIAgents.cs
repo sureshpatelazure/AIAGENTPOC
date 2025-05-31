@@ -69,8 +69,9 @@ namespace AIAgentLib.MultiAgent
             return aIAgent.CreateAIAgent(_kernel, new KernelArguments(), yamlContent);
         }
 
-        public void RunOrchestration(AgentOrchestrationPattern agentOrchestrationPattern, List<string> yamlContent)
+        public string[] RunOrchestration(AgentOrchestrationPattern agentOrchestrationPattern, List<string> yamlContent, string userInput)
         {
+            string[] result = Array.Empty<string>();
             List<ChatCompletionAgent> agents = new List<ChatCompletionAgent>();
 
             foreach (var yaml in yamlContent)
@@ -84,17 +85,10 @@ namespace AIAgentLib.MultiAgent
             if (agentOrchestrationPattern == AgentOrchestrationPattern.Concurrent)
             {
                 Concurrent concurrent = new Concurrent();
-                concurrent.Run(agents).GetAwaiter().GetResult();
+                result = concurrent.Run(agents, userInput).GetAwaiter().GetResult();
             }
-            //else if (agentOrchestrationPattern == AgentOrchestrationPattern.Sequential)
-            //{
-            //    Sequential sequential = new Sequential();
-            //    sequential.Run(agents).GetAwaiter().GetResult();
-            //}
-            //else
-            //{
-            //    throw new NotSupportedException($"Agent orchestration pattern '{agentOrchestrationPattern}' is not supported.");    
-            //}
+
+            return result;
         }
     }
 }

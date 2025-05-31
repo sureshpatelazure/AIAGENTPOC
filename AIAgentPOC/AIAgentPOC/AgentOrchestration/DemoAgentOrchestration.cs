@@ -20,7 +20,7 @@ namespace AIAgentPOC.AgentOrchestration
             return configuration.GetSection(sectionPath).Get<AgentOrchestrationConfig>();
         }
 
-        public static void RunOrchestration(AgentOrchestrationPattern OrchestrationPatterns, List<object> Plugins = null)
+        public static void RunOrchestration(AgentOrchestrationPattern OrchestrationPatterns,string userInput, List<object> Plugins = null)
         {
 
             Configuration configuration = new Configuration("appsettings.json");
@@ -66,7 +66,8 @@ namespace AIAgentPOC.AgentOrchestration
                 connectorConfig,
                 Plugins);
 
-            aIAgents.RunOrchestration(OrchestrationPatterns, yamlContents);
+           var result = aIAgents.RunOrchestration(OrchestrationPatterns, yamlContents,userInput);
+           Console.WriteLine($"# RESULT:\n{string.Join("\n\n", result.Select(text => $"{text}"))}");
         }
     }
 }

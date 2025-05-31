@@ -18,7 +18,7 @@ internal class Program
 
         //await DemoApplication.Run("TripPlanner", Plugins);
 
-        DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent);
+        DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
     }
 
 }   

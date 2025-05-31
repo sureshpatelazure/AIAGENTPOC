@@ -7,11 +7,11 @@ using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 
 namespace AIAgentLib.MultiAgent
 {
-    public class Concurrent
+    public class Concurrent : IAgentOrchestration
     {   
         // To resolve SKEXP0110, you can suppress the diagnostic warning by adding the following pragma directive before and after the usage:
 
-        public async Task Run(List<ChatCompletionAgent> agents)
+        public async Task<string[]> Run(List<ChatCompletionAgent> agents, string userInput)
         {
             #pragma warning disable SKEXP0110
             ConcurrentOrchestration concurrentOrchestration = new ConcurrentOrchestration(agents.ToArray());
@@ -22,16 +22,16 @@ namespace AIAgentLib.MultiAgent
             await runtime.StartAsync();
 
             #pragma warning disable SKEXP0110
-            var results = await concurrentOrchestration.InvokeAsync("What is temperature?", runtime);
+            var results = await concurrentOrchestration.InvokeAsync(userInput, runtime);
             #pragma warning restore SKEXP0110
 
             #pragma warning disable SKEXP0110
             string[] output = await results.GetValueAsync();
             #pragma warning restore SKEXP0110
 
-            Console.WriteLine($"# RESULT:\n{string.Join("\n\n", output.Select(text => $"{text}"))}");
-
             await runtime.RunUntilIdleAsync();
+
+            return output;
         }
     }
 }
