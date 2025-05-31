@@ -1,12 +1,6 @@
 ﻿using AIAgentLib;
 using AIAgentLib.Model;
-using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
 using CommonLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AIAgentPOC
 {

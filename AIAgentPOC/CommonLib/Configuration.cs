@@ -1,5 +1,4 @@
-﻿using AIAgentLib;
-using AIAgentLib.Model;
+﻿using AIAgentLib.Model;
 using Microsoft.Extensions.Configuration;
 
 namespace CommonLib

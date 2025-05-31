@@ -1,6 +1,5 @@
 ﻿using AIAgentPOC;
 using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
-using AIAgentPOC.TripPlannerAIAgentDemo.Plugin;
 
 internal class Program
 {
