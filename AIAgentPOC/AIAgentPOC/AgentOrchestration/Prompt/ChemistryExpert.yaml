@@ -1,0 +1,5 @@
+﻿name: ChemistryExpert
+template: |
+    You are an expert in chemistry. You answer questions from a chemistry perspective.
+template_format: semantic-kernel
+description: A function for Chemistry Expert.

@@ -7,9 +7,9 @@ using Microsoft.SemanticKernel.Agents;
 
 namespace AIAgentPOC.AgentOrchestration
 {
-    public class AgentOrchestration
+    public static class DemoAgentOrchestration
     {
-        private AgentOrchestrationConfig ReadFromAppSettings(string OrchestrationPatternsName)
+        private static AgentOrchestrationConfig ReadFromAppSettings(string OrchestrationPatternsName)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -20,7 +20,7 @@ namespace AIAgentPOC.AgentOrchestration
             return configuration.GetSection(sectionPath).Get<AgentOrchestrationConfig>();
         }
 
-        private List<ChatCompletionAgent> CreateAgents(AgentOrchestrationPattern OrchestrationPatterns, List<object> Plugins = null)
+        public static void RunOrchestration(AgentOrchestrationPattern OrchestrationPatterns, List<object> Plugins = null)
         {
 
             Configuration configuration = new Configuration("appsettings.json");
@@ -35,8 +35,7 @@ namespace AIAgentPOC.AgentOrchestration
             var connectorType = Enum.Parse<AIConnectorServiceType>(demoAgentOrchestrationConfig.AIConnectorName, ignoreCase: true);
             var connectorConfig = configuration.GetConnectorConfiguration(connectorType);
 
-            AIAgents aIAgents = new AIAgents(connectorType, connectorConfig, Plugins);
-            List<ChatCompletionAgent> agents = new List<ChatCompletionAgent>();
+            List<string> yamlContents = new List<string>();
 
             foreach (var agent in demoAgentOrchestrationConfig.Agent)
             {
@@ -59,26 +58,15 @@ namespace AIAgentPOC.AgentOrchestration
                     throw new InvalidOperationException("Plugins should be null or empty when IsPluginPresent is false.");
                 }
 
-                agents.Add(aIAgents.CreateAgent(yamlContent));
+                yamlContents.Add(yamlContent);
             }
 
-            return agents;
-        }
+            AIAgents aIAgents = new AIAgents(
+                connectorType,
+                connectorConfig,
+                Plugins);
 
-        public async Task Run(AgentOrchestrationPattern OrchestrationPatterns, List<object> Plugins = null)
-        {
-            try
-            {
-                var agents = CreateAgents(OrchestrationPatterns, Plugins);
-                if (agents.Count == 0)
-                    throw new InvalidOperationException("No agents were created. Please check your configuration.");
-                
-            }
-            catch (Exception ex)
-            {
-                Console.Error.WriteLine($"Error in Run: {ex.Message}");
-                throw;
-            }
+            aIAgents.RunOrchestration(OrchestrationPatterns, yamlContents);
         }
     }
 }

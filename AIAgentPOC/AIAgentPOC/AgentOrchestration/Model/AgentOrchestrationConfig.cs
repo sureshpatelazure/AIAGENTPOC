@@ -13,13 +13,4 @@
         public string? YamlPromptFilePath { get; set; }
     }
 
-    public enum AgentOrchestrationPattern
-    {
-        Concurrent,
-        Sequential,
-        Handoff,
-        GroupChat,
-        Magentic
-    }
-
 }

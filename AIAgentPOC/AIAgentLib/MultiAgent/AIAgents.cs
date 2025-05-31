@@ -63,11 +63,23 @@ namespace AIAgentLib.MultiAgent
             IAIServiceConnector aIConnectorService = GetAIServiceConnector(aIConnectorServiceType);
             return aIConnectorService.BuildChatCompletion(aIConnectorServiceConfiguration, Plugins);
         }
-        public ChatCompletionAgent CreateAgent(string yamlContent)
+        private ChatCompletionAgent CreateAgent(string yamlContent)
         {
             IAIAgent aIAgent = new AIAgent.AIAgent();
             return aIAgent.CreateAIAgent(_kernel, new KernelArguments(), yamlContent);
         }
 
+        public void RunOrchestration(AgentOrchestrationPattern agentOrchestrationPattern, List<string> yamlContent)
+        {
+            List<ChatCompletionAgent> agents = new List<ChatCompletionAgent>(); 
+
+            foreach(var yaml in yamlContent)
+            {
+                if (string.IsNullOrWhiteSpace(yaml))
+                    throw new InvalidOperationException("YAML content cannot be null or empty.");
+                var agent = CreateAgent(yaml);
+                agents.Add(agent);
+            }   
+        }
     }
 }

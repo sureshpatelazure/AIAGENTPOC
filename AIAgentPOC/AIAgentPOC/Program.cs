@@ -1,6 +1,6 @@
 ﻿using AIAgentPOC;
 using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
-
+using AIAgentPOC.AgentOrchestration;
 internal class Program
 {
     private static async Task Main(string[] args)
@@ -8,8 +8,8 @@ internal class Program
         List<Object> Plugins = new List<object>();
 
         // Pizza  Order
-        Plugins.Add(new PizzaPlugin());
-        await DemoApplication.Run("PizzaOrder", Plugins);
+        //Plugins.Add(new PizzaPlugin());
+        //await DemoApplication.Run("PizzaOrder", Plugins);
 
         //Plugins.Add(new TripPlanner());
         //Plugins.Add(new TimeTeller());
@@ -17,6 +17,8 @@ internal class Program
         //Plugins.Add(new WeatherForecaster());
 
         //await DemoApplication.Run("TripPlanner", Plugins);
+
+        DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent);
     }
 
 }   
