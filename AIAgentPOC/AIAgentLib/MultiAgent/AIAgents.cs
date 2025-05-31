@@ -71,15 +71,30 @@ namespace AIAgentLib.MultiAgent
 
         public void RunOrchestration(AgentOrchestrationPattern agentOrchestrationPattern, List<string> yamlContent)
         {
-            List<ChatCompletionAgent> agents = new List<ChatCompletionAgent>(); 
+            List<ChatCompletionAgent> agents = new List<ChatCompletionAgent>();
 
-            foreach(var yaml in yamlContent)
+            foreach (var yaml in yamlContent)
             {
                 if (string.IsNullOrWhiteSpace(yaml))
                     throw new InvalidOperationException("YAML content cannot be null or empty.");
                 var agent = CreateAgent(yaml);
                 agents.Add(agent);
-            }   
+            }
+
+            if (agentOrchestrationPattern == AgentOrchestrationPattern.Concurrent)
+            {
+                Concurrent concurrent = new Concurrent();
+                concurrent.Run(agents).GetAwaiter().GetResult();
+            }
+            //else if (agentOrchestrationPattern == AgentOrchestrationPattern.Sequential)
+            //{
+            //    Sequential sequential = new Sequential();
+            //    sequential.Run(agents).GetAwaiter().GetResult();
+            //}
+            //else
+            //{
+            //    throw new NotSupportedException($"Agent orchestration pattern '{agentOrchestrationPattern}' is not supported.");    
+            //}
         }
     }
 }
