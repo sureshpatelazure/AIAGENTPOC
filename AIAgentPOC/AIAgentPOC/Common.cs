@@ -18,29 +18,7 @@ namespace AIAgentPOC
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             return builder.Build();
-        }
-
-        public static AIConnectorServiceConfiguration GetConnectorConfiguration(AIConnectorServiceType connectorType)
-        {
-            return connectorType switch
-            {
-                AIConnectorServiceType.Ollama => Common.GetOllamaConfiguration(),
-                // Add more cases here for other connector types as needed
-                _ => throw new InvalidOperationException($"Unsupported AI connector service type: {connectorType}")
-            };
-        }
-        private static OllamaConnectorServiceConfiguration GetOllamaConfiguration()
-        {
-            var section = BuildConfiguration().GetSection("AIConnector:Ollama");
-            if (!section.Exists())
-                throw new InvalidOperationException("Missing configuration for AIConnector:Ollama");
-
-            return new OllamaConnectorServiceConfiguration
-            {
-                ModelId = section.GetValue<string>("ModelId") ?? throw new InvalidOperationException("ModelId missing"),
-                Uri = section.GetValue<string>("Url") ?? throw new InvalidOperationException("Url missing")
-            };
-        }
+        } 
 
         public static DemoApplicationConfig GetDemoApplicationConfiguration(string appName)
         {
@@ -54,15 +32,6 @@ namespace AIAgentPOC
                 YamlPromptFilePath = section.GetValue<string>("YamlPromptFilePath") ?? throw new InvalidOperationException("YamlPromptFilePath missing"),
                 IsPluginPresent = bool.TryParse(section["IsPluginPresent"], out var present) ? present : throw new InvalidOperationException("IsPluginPresent invalid")
             };
-        }
-
-        public static string GetYamlContent(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException($"The YAML file was not found at path '{filePath}'.");
-            }
-            return File.ReadAllText(filePath);
         }
 
         public static async Task ChatWithAgent(ChatCompletionStartup chatCompletionStartup)

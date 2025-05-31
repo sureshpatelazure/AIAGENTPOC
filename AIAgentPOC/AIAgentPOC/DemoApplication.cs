@@ -1,6 +1,7 @@
 ﻿using AIAgentLib;
 using AIAgentLib.Model;
 using AIAgentPOC.PizzaOrderAIAgentDemo.Plugin;
+using CommonLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace AIAgentPOC
         {
             try
             {
+             
+                 Configuration configuration = new Configuration("appsettings.json");  
+
                 if (string.IsNullOrWhiteSpace(demoApplicationName))
                     throw new ArgumentException("Demo application name cannot be null or empty.", nameof(demoApplicationName));
 
@@ -23,10 +27,10 @@ namespace AIAgentPOC
 
                 // Get AI Connector Configuration   
                 var connectorType = Enum.Parse<AIConnectorServiceType>(demoConfig.AIConnectorName, ignoreCase: true);
-                var connectorConfig = Common. GetConnectorConfiguration(connectorType);
+                var connectorConfig = configuration.GetConnectorConfiguration(connectorType);
 
                 // Get Prompt Yaml File
-                var yamlContent = Common.GetYamlContent(demoConfig.YamlPromptFilePath);
+                var yamlContent = configuration.GetYamlContent(demoConfig.YamlPromptFilePath);
 
                 if (string.IsNullOrWhiteSpace(yamlContent))
                     throw new InvalidOperationException($"YAML content is empty or could not be loaded from path: {demoConfig.YamlPromptFilePath}");
