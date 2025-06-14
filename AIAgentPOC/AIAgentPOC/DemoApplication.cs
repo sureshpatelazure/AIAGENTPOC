@@ -40,7 +40,29 @@ namespace AIAgentPOC
                     throw new InvalidOperationException("Plugins should be null or empty when IsPluginPresent is false.");
                 }
 
-                var chatStartup = new ChatCompletionStartup(connectorType, connectorConfig, yamlContent, Plugins);
+                // RAG validation
+                EmbeddingConfiguration embeddingConfiguration = null;
+                if (demoConfig.IsRAGEnabled && string.IsNullOrWhiteSpace(demoConfig.EmbeddingCollectionName))
+                {
+                    throw new InvalidOperationException("EmbeddingCollectionName cannot be null or empty when IsRAGEnabled is true.");
+                } 
+                else if (demoConfig.IsRAGEnabled && string.IsNullOrWhiteSpace(demoConfig.EmbeddingDocumentContent))
+                {
+                    throw new InvalidOperationException("EmbeddingDocumentContent cannot be null or empty when IsRAGEnabled is true.");
+                }
+                else if (demoConfig.IsRAGEnabled && 
+                         (!string.IsNullOrWhiteSpace(demoConfig.EmbeddingCollectionName) || 
+                          !string.IsNullOrWhiteSpace(demoConfig.EmbeddingDocumentContent)))
+                {
+                    embeddingConfiguration = new EmbeddingConfiguration
+                    {
+                        CollectionName = demoConfig.EmbeddingCollectionName,
+                        DocumentContent = demoConfig.EmbeddingDocumentContent
+                    };  
+                }
+
+
+                var chatStartup = new ChatCompletionStartup(connectorType, connectorConfig, yamlContent, Plugins, embeddingConfiguration);
                 await Common.ChatWithAgent(chatStartup);
             }
             catch (Exception ex)
@@ -57,5 +79,9 @@ namespace AIAgentPOC
 
         public string YamlPromptFilePath { get; set; }
         public bool IsPluginPresent { get; set; }
+        public bool IsRAGEnabled { get; set; }
+        public string EmbeddingCollectionName { get; set; }
+        public string EmbeddingDocumentContent { get; set; }
+
     }
 }

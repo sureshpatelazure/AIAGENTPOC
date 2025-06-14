@@ -24,7 +24,10 @@ namespace AIAgentPOC
             {
                 AIConnectorName = section.GetValue<string>("AIConnectorName") ?? throw new InvalidOperationException("AIConnectorName missing"),
                 YamlPromptFilePath = section.GetValue<string>("YamlPromptFilePath") ?? throw new InvalidOperationException("YamlPromptFilePath missing"),
-                IsPluginPresent = bool.TryParse(section["IsPluginPresent"], out var present) ? present : throw new InvalidOperationException("IsPluginPresent invalid")
+                IsPluginPresent = bool.TryParse(section["IsPluginPresent"], out var present) ? present : throw new InvalidOperationException("IsPluginPresent invalid"),
+                IsRAGEnabled = bool.TryParse(section["IsRAGEnabled"], out var isragenabled) ? isragenabled : throw new InvalidOperationException("IsRAGEnabled invalid"),
+                EmbeddingCollectionName = section.GetValue<string>("EmbeddingCollectionName") ?? throw new InvalidOperationException("EmbeddingCollectionName missing"),
+                EmbeddingDocumentContent = section.GetValue<string>("EmbeddingDocumentContent") ?? throw new InvalidOperationException("EmbeddingDocumentContent missing"),
             };
         }
 

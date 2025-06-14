@@ -1,9 +1,12 @@
 ﻿using AIAgentLib.AIAgent;
 using AIAgentLib.AIService;
 using AIAgentLib.Model;
+using AIAgentLib.RAGAIService;
 using AIAgentLib.SemanticKernalService;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
+using Microsoft.SemanticKernel.Data;
+using System.Linq.Expressions;
 
 namespace AIAgentLib
 {
@@ -15,14 +18,23 @@ namespace AIAgentLib
            AIConnectorServiceType aIConnectorServiceType,
            AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
            string yamlContent,
-           List<object>? plugins)
+           List<object>? plugins, EmbeddingConfiguration embeddingConfiguration)
         {
             Kernel kernel = plugins == null
                 ? CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration)
                 : CreateKernel(aIConnectorServiceType, aIConnectorServiceConfiguration, plugins);
 
             ChatCompletionAgent agent = CreateAgent(kernel, yamlContent);
-            _chatCompletionService = new ChatCompletionService(agent);
+            if (embeddingConfiguration != null)
+            {
+                RAGService rAGService = new RAGService();
+                var textSearchProvider = rAGService.AddDocumentAsync(kernel, embeddingConfiguration).GetAwaiter().GetResult();
+                _chatCompletionService = new ChatCompletionService(agent, textSearchProvider);
+            }
+            else
+            {
+                _chatCompletionService = new ChatCompletionService(agent);
+            }
         }
 
         public ChatCompletionStartup(
@@ -34,20 +46,20 @@ namespace AIAgentLib
                 aIConnectorServiceType,
                 aIConnectorServiceConfiguration,
                 yamlContent,
-                null);
+                null,null);
         }
 
         public ChatCompletionStartup(
             AIConnectorServiceType aIConnectorServiceType,
             AIConnectorServiceConfiguration aIConnectorServiceConfiguration,
             string yamlContent,
-            List<object> Plugins)
+            List<object> Plugins, EmbeddingConfiguration embeddingConfiguration)
         {
             InitializeChatCompletionService(
                 aIConnectorServiceType,
                 aIConnectorServiceConfiguration,
                 yamlContent,
-                Plugins);
+                Plugins, embeddingConfiguration);
         }
 
 

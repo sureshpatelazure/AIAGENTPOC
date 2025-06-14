@@ -19,5 +19,10 @@
         Ollama,
         AzureOpenAI,
         OpenAI
+    }  
+    public class EmbeddingConfiguration
+    {
+        public string CollectionName { get; set; }
+        public string DocumentContent { get; set; }
     }   
 }
