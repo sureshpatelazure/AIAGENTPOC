@@ -17,11 +17,14 @@ internal class Program
         //Plugins.Add(new WeatherForecaster());
 
         //await DemoApplication.Run("TripPlanner", Plugins);
-        
-        //Physic expert
-       // await DemoApplication.Run("PhysicsExpert");
 
-         DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
+        //Physic expert
+        // await DemoApplication.Run("PhysicsExpert");
+
+        // RAG Demo
+        await DemoApplication.Run("FriendlyAssistant");
+        
+        // DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
     }
 
 }   

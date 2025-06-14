@@ -29,6 +29,10 @@ namespace AIAgentLib.SemanticKernalService
             {
                 var builder = Kernel.CreateBuilder();
                 builder.AddOllamaChatCompletion(ollama.ModelId, new Uri(ollama.Uri));
+                if (ollama.useEmbeddingModel && !string.IsNullOrEmpty(ollama.EmbeddingModelId) && !string.IsNullOrEmpty(ollama.EmbeddingUrl))
+                {
+                    builder.AddOllamaEmbeddingGenerator(ollama.EmbeddingModelId, new Uri(ollama.EmbeddingUrl));
+                }
                 return builder;
             }
             else

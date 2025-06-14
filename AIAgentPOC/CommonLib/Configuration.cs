@@ -34,7 +34,10 @@ namespace CommonLib
             return new OllamaConnectorServiceConfiguration
             {
                 ModelId = section.GetValue<string>("ModelId") ?? throw new InvalidOperationException("ModelId missing"),
-                Uri = section.GetValue<string>("Url") ?? throw new InvalidOperationException("Url missing")
+                Uri = section.GetValue<string>("Url") ?? throw new InvalidOperationException("Url missing"),
+                useEmbeddingModel = section.GetValue<bool>("useEmbeddingModel"),
+                EmbeddingModelId = section.GetValue<string>("EmbeddingModelId") ?? throw new InvalidOperationException("EmbeddingModelId missing"),
+                EmbeddingUrl = section.GetValue<string>("EmbeddingUrl") ?? throw new InvalidOperationException("EmbeddingUrl missing")
             };
         }
 

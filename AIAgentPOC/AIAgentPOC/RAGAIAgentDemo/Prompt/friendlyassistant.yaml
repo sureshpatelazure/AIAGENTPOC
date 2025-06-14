@@ -1,0 +1,5 @@
+﻿name: FriendlyAssistant
+template: |
+   You are a friendly assistant. Use the provided context to answer.
+template_format: semantic-kernel
+description: You are a friendly assistant. Use the provided context to answer..
