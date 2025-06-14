@@ -25,7 +25,7 @@ namespace AIAgentLib.RAGAIService
 
             // 3. Create a TextSearchStore for storing and searching text documents
                 #pragma warning disable SKEXP0130 // Suppress evaluation warning for TextSearchStore
-                    using var textSearchStore = new TextSearchStore<string>(vectorStore, collectionName: embeddingConfiguration.CollectionName, vectorDimensions: 1536);
+                    using var textSearchStore = new TextSearchStore<string>(vectorStore, collectionName: embeddingConfiguration.CollectionName, vectorDimensions: 1024);
                 #pragma warning restore SKEXP0130
 
             // 4. Upsert documents into the store
