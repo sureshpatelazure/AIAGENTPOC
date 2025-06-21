@@ -2,17 +2,9 @@
 using Microsoft.SemanticKernel;
 using ModelContextProtocol.Client;
 
-await using IMcpClient mcpClient = await McpClientFactory.CreateAsync(new StdioClientTransport(new()
-{
-    Name = "MCPServer",
-    // Point the client to the MCPServer server executable
-    Command = Path.Combine("C:\\GenAI\\GitHub Project\\SemanticKernelMCPPOC\\MCPServer\\bin\\Debug\\net8.0\\MCPServer.exe")
-}));
+Console.WriteLine("Starting MCP Client...");    
 
-IList<McpClientTool> tools = await mcpClient.ListToolsAsync();
-
-//IMcpClient mcpClient = await MCPClient.MCPClient.CreateMCPClient();
-//IList<McpClientTool> tools = await mcpClient.ListToolsAsync();
+IList<McpClientTool> tools = await MCPClient.MCPClient.CreateMCPClient();
 
 Kernel kernel= SemanticKernelService.CreateKernel(tools, "Ollama");
 
