@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using ModelContextProtocol.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MCPServer
+namespace MCPServer.Extension
 {
     public static class McpServerBuilderExtensions
     {
@@ -20,7 +15,6 @@ namespace MCPServer
                     builder.Services.AddSingleton(services => McpServerTool.Create(function));
                 }
             }
-
             return builder;
         }
     }
