@@ -1,4 +1,5 @@
-﻿using MemoryVectorStorePOC.TextSearch;
+﻿using MemoryVectorStorePOC.ChatCompletion;
+using MemoryVectorStorePOC.TextSearch;
 using MemoryVectorStorePOC.VectorStore;
 using Microsoft.Extensions.AI;
 
@@ -24,10 +25,10 @@ namespace MemoryVectorStorePOC
             };
 
             string  query = "What is budget for 2020?"; 
-            qdrantVectorStoreService.UpSert(budgetInfo).GetAwaiter().GetResult();   
-            qdrantVectorStoreService.Search(query).GetAwaiter().GetResult();
-            TextSearchService.Search(query , qdrantVectorStoreService.Collection, embeddingGenerator).GetAwaiter().GetResult();
-
+            qdrantVectorStoreService.UpSert(budgetInfo).GetAwaiter().GetResult();
+            //qdrantVectorStoreService.Search(query).GetAwaiter().GetResult();
+            //TextSearchService.Search(query , qdrantVectorStoreService.Collection, embeddingGenerator).GetAwaiter().GetResult();
+            ChatCompletionService.ChatWithAI(kernel, qdrantVectorStoreService.Collection, embeddingGenerator).GetAwaiter().GetResult(); 
 
         }
     }

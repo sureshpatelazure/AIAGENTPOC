@@ -25,6 +25,7 @@ namespace MemoryVectorStorePOC.TextSearch
             {
                 Console.WriteLine($"Key: {result.Name}, Text: {result.Value}");
             }   
+
         }
     }
 }
