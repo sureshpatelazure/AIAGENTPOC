@@ -23,7 +23,7 @@ namespace MemoryVectorStorePOC
             };
 
             qdrantVectorStoreService.UpSert(budgetInfo).GetAwaiter().GetResult();   
-            qdrantVectorStoreService.Search("What is the budget for 2024?").GetAwaiter().GetResult();   
+            qdrantVectorStoreService.Search("What is budget for 2020?").GetAwaiter().GetResult();   
         }
     }
 }

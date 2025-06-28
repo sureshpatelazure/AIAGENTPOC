@@ -36,10 +36,23 @@ namespace MemoryVectorStorePOC.VectorStore
 
         public async Task Search(string query)
         {
-            var searchResult = _collection.SearchAsync(query,top: 1);
+            VectorSearchOptions<FinanceInfo> options = new VectorSearchOptions<FinanceInfo>
+            {
+                Filter = null, // No filter applie
+            };  
+
+            var searchResult = _collection.SearchAsync(query,top: 1, options);
+            var scoreThreshold = 0.9;
             await foreach (var result in searchResult)
             {
-                Console.WriteLine($"Key: {result.Record.Key}, Text: {result.Record.Text}");
+                if (result.Score >= scoreThreshold)
+                {
+                    Console.WriteLine($"Key: {result.Record.Key}, Text: {result.Record.Text}, Score: {result.Score}");
+                }
+                else
+                {
+                    Console.WriteLine($"No results found with score above {scoreThreshold}");
+                }
             }
 
         }
