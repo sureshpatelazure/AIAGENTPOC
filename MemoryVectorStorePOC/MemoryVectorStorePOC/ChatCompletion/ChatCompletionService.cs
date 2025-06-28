@@ -32,8 +32,23 @@ namespace MemoryVectorStorePOC.ChatCompletion
 
             KernelArguments arguments = new(promptExecutionSettings );
 
-            var result = await kernel.InvokePromptAsync("What is budget for 2020", arguments); 
-            Console.WriteLine($"AI Response: {result}");    
+            string query = string.Empty;
+
+            while (query.ToLower() != "exit")
+            {
+                Console.WriteLine("Enter your query (or type 'exit' to quit): ");
+                Console.WriteLine();
+                query = Console.ReadLine();
+                if (query == "exit")
+                {
+                    break;
+                }
+               
+                var result = await kernel.InvokePromptAsync(query, arguments); 
+                Console.WriteLine($"AI Response: {result}");
+                Console.WriteLine();
+            }   
+         
         }
     }
 }
