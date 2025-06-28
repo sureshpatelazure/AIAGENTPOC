@@ -11,8 +11,8 @@ namespace MemoryVectorStorePOC.VectorStore
 {
     public class QdrantVectorStoreService
     {
-        private QdrantVectorStore? _vectorStore;
-        private QdrantCollection<ulong, FinanceInfo>? _collection;
+        private  QdrantVectorStore? _vectorStore;
+        private  QdrantCollection<ulong, FinanceInfo>? _collection;
 
         public  QdrantVectorStoreService(IEmbeddingGenerator embeddingGenerator)
         {
@@ -56,5 +56,7 @@ namespace MemoryVectorStorePOC.VectorStore
             }
 
         }
+
+        public QdrantCollection<ulong, FinanceInfo>? Collection => _collection;
     }
 }

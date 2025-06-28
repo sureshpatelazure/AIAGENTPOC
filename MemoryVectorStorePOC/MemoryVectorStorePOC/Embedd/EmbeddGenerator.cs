@@ -5,7 +5,7 @@ namespace MemoryVectorStorePOC.Embedd
 {
     public static class EmbeddGenerator
     {
-        public static IEmbeddingGenerator IEmbeddingGenerato(Kernel kernel)
+        public static IEmbeddingGenerator<string, Embedding<float>> IEmbeddingGenerato(Kernel kernel)
         {
            return kernel.GetRequiredService<IEmbeddingGenerator<string,Embedding<float>>>();
         }

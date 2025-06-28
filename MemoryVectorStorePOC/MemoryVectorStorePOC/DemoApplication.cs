@@ -1,4 +1,5 @@
-﻿using MemoryVectorStorePOC.VectorStore;
+﻿using MemoryVectorStorePOC.TextSearch;
+using MemoryVectorStorePOC.VectorStore;
 using Microsoft.Extensions.AI;
 
 namespace MemoryVectorStorePOC
@@ -9,7 +10,7 @@ namespace MemoryVectorStorePOC
         {
             // Initialize the Semantic Kernel with AI services
             var kernel = SemanticKernelCore.SemanticKernelService.CreateKernelWithAIService();
-            IEmbeddingGenerator embeddingGenerator = Embedd.EmbeddGenerator.IEmbeddingGenerato(kernel);
+            IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator = Embedd.EmbeddGenerator.IEmbeddingGenerato(kernel);
 
             QdrantVectorStoreService qdrantVectorStoreService = new QdrantVectorStoreService(embeddingGenerator);
 
@@ -22,8 +23,12 @@ namespace MemoryVectorStorePOC
                 "The budget for 2024 is EUR 364 000"
             };
 
+            string  query = "What is budget for 2020?"; 
             qdrantVectorStoreService.UpSert(budgetInfo).GetAwaiter().GetResult();   
-            qdrantVectorStoreService.Search("What is budget for 2020?").GetAwaiter().GetResult();   
+            qdrantVectorStoreService.Search(query).GetAwaiter().GetResult();
+            TextSearchService.Search(query , qdrantVectorStoreService.Collection, embeddingGenerator).GetAwaiter().GetResult();
+
+
         }
     }
 }
