@@ -55,13 +55,11 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
                 });
 
                 var textContent = await Task.WhenAll(textContentTasks).ConfigureAwait(false);
-
+                ulong counter = 0;
                 var records = textContent.Select(content => new TextSnippet()
                 {
-                    Key = new Guid(),
+                    Key = ++counter,
                     Text = content.Text,
-                    ReferenceDescription = $"{new FileInfo(filePath).Name}#page={content.PageNumber}",
-                    ReferenceLink = $"{new Uri(new FileInfo(filePath).FullName).AbsoluteUri}#page={content.PageNumber}",
                 });
 
                 textSnippetList.Add(records.ToList());

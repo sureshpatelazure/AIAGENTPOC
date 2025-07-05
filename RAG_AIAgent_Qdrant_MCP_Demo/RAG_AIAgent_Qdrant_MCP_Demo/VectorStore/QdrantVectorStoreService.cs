@@ -2,13 +2,14 @@
 using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Qdrant.Client;
+using RAG_AIAgent_Qdrant_MCP_Demo.DataLoader;
 
 namespace RAG_AIAgent_Qdrant_MCP_Demo.VectorStore
 {
-    public class QdrantVectorStoreService<T> where T : class, IVectorRecord, new()
+    public class QdrantVectorStoreService
     {
         private QdrantVectorStore? _vectorStore;
-        private QdrantCollection<ulong, T>? _collection;
+        private QdrantCollection<ulong, TextSnippet>? _collection;
 
         public QdrantVectorStoreService(IEmbeddingGenerator embeddingGenerator, string uri, string apikey, string collectionname)
         {
@@ -19,32 +20,46 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.VectorStore
                {
                    EmbeddingGenerator = embeddingGenerator,
                });
-            _collection = _vectorStore.GetCollection<ulong, T>(collectionname);
+            _collection = _vectorStore.GetCollection<ulong, TextSnippet>(collectionname);
 
             _collection.EnsureCollectionExistsAsync().GetAwaiter().GetResult();
         }
 
-        public async Task UpSert(string[] budgetInfo)
+        public async Task UpSert(IEnumerable<TextSnippet> textSnippets)
         {
-            var records = budgetInfo.Select((input, index) => new T { Key = (ulong)index, Text = input });
-            await _collection.UpsertAsync(records);
+            var data = textSnippets.Select(snippet => new TextSnippet
+            {
+                Key = snippet.Key,
+                Text = "TEst Data :" + snippet.Text, // You can modify the text as needed
+            });
+
+            
+            await _collection.UpsertAsync(data);
         }
 
-        public async Task<List<VectorSearchResult<T>>> SearchAsync(string query)
-        {
-            VectorSearchOptions<T> options = new VectorSearchOptions<T>
-            {
-                Filter = null,
-            };
+        //public async Task Search(string query)
+        //{
+        //    VectorSearchOptions<FinanceInfo> options = new VectorSearchOptions<FinanceInfo>
+        //    {
+        //        Filter = null, // No filter applie
+        //    };
 
-            var results = new List<VectorSearchResult<T>>();
-            await foreach (var result in _collection.SearchAsync(query, top: 1, options))
-            {
-                results.Add(result);
-            }
-            return results;
-        }
+        //    var searchResult = _collection.SearchAsync(query, top: 1, options);
+        //    var scoreThreshold = 0.9;
+        //    await foreach (var result in searchResult)
+        //    {
+        //        if (result.Score >= scoreThreshold)
+        //        {
+        //            Console.WriteLine($"Key: {result.Record.Key}, Text: {result.Record.Text}, Score: {result.Score}");
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine($"No results found with score above {scoreThreshold}");
+        //        }
+        //    }
 
-        public QdrantCollection<ulong, T>? Collection => _collection;
+        //}
+
+        public QdrantCollection<ulong, TextSnippet>? Collection => _collection;
     }
 }
