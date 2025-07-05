@@ -30,7 +30,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.VectorStore
             var data = textSnippets.Select(snippet => new TextSnippet
             {
                 Key = snippet.Key,
-                Text = "TEst Data :" + snippet.Text, // You can modify the text as needed
+                Text = snippet.Text, // You can modify the text as needed
             });
 
             

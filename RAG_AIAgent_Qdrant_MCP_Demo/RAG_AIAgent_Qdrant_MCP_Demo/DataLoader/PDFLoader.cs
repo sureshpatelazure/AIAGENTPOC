@@ -16,18 +16,35 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
     {
         public async Task <List<List<TextSnippet>>> LoadPDF(string filePath, int batchSize)
         {
-            List<RawContent> rawContents = new List<RawContent>();      
+            List<RawContent> rawContents = new List<RawContent>();
+
+            int pageCounter = 1;
 
             using (PdfDocument document = PdfDocument.Open(filePath))
             {
                 foreach (Page page in document.GetPages()) { 
 
                     var blocks = DefaultPageSegmenter.Instance.GetBlocks(page.GetWords());
+
                     foreach (var block in blocks) {
-                        rawContents.Add(new RawContent {
-                            Text = block.Text,
-                            PageNumber = page.Number
-                        });
+                        if (!string.IsNullOrEmpty(block.Text))
+                        {
+                            int mid = block.Text.Length / 2;
+                            string firstHalf = block.Text.Substring(0, mid);
+                            string secondHalf = block.Text.Substring(mid);
+
+                            rawContents.Add(new RawContent
+                            {
+                                Text = firstHalf,
+                                PageNumber = pageCounter++
+                            });
+
+                            rawContents.Add(new RawContent
+                            {
+                                Text = secondHalf,
+                                PageNumber = pageCounter++
+                            });
+                        }
                     }
                 }
             }
@@ -36,6 +53,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 
             List<List<TextSnippet>> textSnippetList = new List<List<TextSnippet>>();
 
+            ulong counter = 0;
             foreach (var batch in batches)
             {
                 var textContentTasks = batch.Select(async content =>
@@ -55,7 +73,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
                 });
 
                 var textContent = await Task.WhenAll(textContentTasks).ConfigureAwait(false);
-                ulong counter = 0;
+                
                 var records = textContent.Select(content => new TextSnippet()
                 {
                     Key = ++counter,
