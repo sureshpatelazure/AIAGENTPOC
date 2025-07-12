@@ -11,7 +11,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.SemanticKernel
 
              #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
             // builder.AddOllamaChatCompletion(chatModel, new Uri(chatApiUrl));
-            builder.AddHuggingFaceChatCompletion("google/gemma-2-2b-it", new Uri("https://router.huggingface.co/nebius/"), "");
+            builder.AddHuggingFaceChatCompletion("google/gemma-2-2b-it", new Uri("https://router.huggingface.co/nebius/"), "1");
             #pragma warning restore SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
             #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
