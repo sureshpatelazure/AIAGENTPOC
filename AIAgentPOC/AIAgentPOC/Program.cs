@@ -8,8 +8,8 @@ internal class Program
         List<Object> Plugins = new List<object>();
 
         // Pizza  Order
-        //Plugins.Add(new PizzaPlugin());
-        //await DemoApplication.Run("PizzaOrder", Plugins);
+        Plugins.Add(new PizzaPlugin());
+        await DemoApplication.Run("PizzaOrder", Plugins);
 
         //Plugins.Add(new TripPlanner());
         //Plugins.Add(new TimeTeller());
@@ -22,7 +22,7 @@ internal class Program
         // await DemoApplication.Run("PhysicsExpert");
 
         // RAG Demo
-        await DemoApplication.Run("FriendlyAssistant");
+        //await DemoApplication.Run("FriendlyAssistant");
         
         // DemoAgentOrchestration.RunOrchestration(AIAgentLib.Model.AgentOrchestrationPattern.Concurrent, "What is temperature?");
     }

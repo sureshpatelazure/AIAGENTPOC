@@ -14,9 +14,17 @@
         public string EmbeddingUrl { get; set; }
     }
 
+    public class HuggingFaceConnectorServiceConfiguration : AIConnectorServiceConfiguration
+    {
+        public string ModelId { get; set; }
+        public string Uri { get; set; }
+        public string ApiKey { get; set; }
+    }
+
     public enum AIConnectorServiceType
     {
         Ollama,
+        HuggingFace,
         AzureOpenAI,
         OpenAI
     }  

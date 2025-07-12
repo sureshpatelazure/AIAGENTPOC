@@ -21,6 +21,7 @@ namespace CommonLib
             return connectorType switch
             {
                 AIConnectorServiceType.Ollama => GetOllamaConfiguration(),
+                AIConnectorServiceType.HuggingFace => GetHuggingFaceConfiguration(),
                 // Add more cases here for other connector types as needed
                 _ => throw new InvalidOperationException($"Unsupported AI connector service type: {connectorType}")
             };
@@ -38,6 +39,19 @@ namespace CommonLib
                 useEmbeddingModel = section.GetValue<bool>("useEmbeddingModel"),
                 EmbeddingModelId = section.GetValue<string>("EmbeddingModelId") ?? throw new InvalidOperationException("EmbeddingModelId missing"),
                 EmbeddingUrl = section.GetValue<string>("EmbeddingUrl") ?? throw new InvalidOperationException("EmbeddingUrl missing")
+            };
+        }
+        private HuggingFaceConnectorServiceConfiguration GetHuggingFaceConfiguration()
+        {
+            var section = _configuration.GetSection("AIConnector:HuggingFace");
+            if (!section.Exists())
+                throw new InvalidOperationException("Missing configuration for AIConnector:HuggingFace");
+
+            return new HuggingFaceConnectorServiceConfiguration
+            {
+                ModelId = section.GetValue<string>("ModelId") ?? throw new InvalidOperationException("ModelId missing"),
+                Uri = section.GetValue<string>("Url") ?? throw new InvalidOperationException("Url missing"),
+                ApiKey= section.GetValue<string>("ApiKey") ?? throw new InvalidOperationException("ApiKey missing"),
             };
         }
 

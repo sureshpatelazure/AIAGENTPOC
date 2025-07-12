@@ -68,6 +68,7 @@ namespace AIAgentLib
             return aIConnectorServiceType switch
             {
                 AIConnectorServiceType.Ollama => new OllamaKernelChatCompletionService(),
+                AIConnectorServiceType.HuggingFace => new HuggingFaceChatCompletionService(),
                 _ => throw new ArgumentException($"Unsupported AI connector service type: {aIConnectorServiceType}")
             };
         }
