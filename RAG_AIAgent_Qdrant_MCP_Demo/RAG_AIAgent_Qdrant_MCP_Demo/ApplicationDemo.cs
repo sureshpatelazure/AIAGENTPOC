@@ -32,12 +32,15 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo
             var batchSize = configuration.GetValue<int>("files:pdffiles:IndianBailJudgments:batchSize");
             var batchDivision = configuration.GetValue<int>("files:pdffiles:IndianBailJudgments:batchDivision");
 
-            var folderFiles = Directory.GetFiles(folderPath);
-            if(filePaths == null || filePaths.Length == 0)
+            if (Directory.Exists(folderPath))
             {
-                filePaths = new string[0];
-            }   
-            filePaths = filePaths.Concat(folderFiles).ToArray();
+                var folderFiles = Directory.GetFiles(folderPath);
+                if (filePaths == null || filePaths.Length == 0)
+                {
+                    filePaths = new string[0];
+                }
+                filePaths = filePaths.Concat(folderFiles).ToArray();
+            }
 
             EmbeddingService embeddingService = new EmbeddingService(kernel, pDFLoader , vectorStoreService);
             embeddingService.UploadEmbedding(filePaths, batchDivision, batchSize);
