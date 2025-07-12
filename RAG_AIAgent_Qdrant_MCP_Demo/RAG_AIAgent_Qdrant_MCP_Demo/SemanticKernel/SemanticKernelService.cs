@@ -9,12 +9,14 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.SemanticKernel
         {
             var builder = Kernel.CreateBuilder();
 
-            #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-            builder.AddOllamaChatCompletion(chatModel, new Uri(chatApiUrl));
+             #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            // builder.AddOllamaChatCompletion(chatModel, new Uri(chatApiUrl));
+            builder.AddHuggingFaceChatCompletion("google/gemma-2-2b-it", new Uri("https://router.huggingface.co/nebius/"), "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");
             #pragma warning restore SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-                    
+
             #pragma warning disable SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
             builder.Services.AddOllamaEmbeddingGenerator(embeddingModel, new Uri(embeddingApiUrl));
+            //builder.Services.AddHuggingFaceEmbeddingGenerator("mixedbread-ai/mxbai-embed-large-v1", new Uri("https://router.huggingface.co/hf-inference/models/mixedbread-ai/mxbai-embed-large-v1/pipeline/feature-extraction/"), "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");     
             #pragma warning restore SKEXP0070 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
             return builder.Build();
