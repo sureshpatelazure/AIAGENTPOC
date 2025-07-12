@@ -55,5 +55,12 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo
             return semanticKernelService.CreateKernelWithAIService(embeddingModel, embeddingApiUrl, chatModel, chatApiUrl);
 
         }
+
+        public static void ChatWithAIAgent(Kernel kernel)
+        {
+            AIAgent.AIAgent aIAgent = new AIAgent.AIAgent();
+            aIAgent.CreateAIAgent(kernel, "C:\\GenAI\\GitHub Project\\RAG_AIAgent_Qdrant_MCP_Demo\\RAG_AIAgent_Qdrant_MCP_Demo\\AIAgent\\ragdemo.yaml");
+            aIAgent.ChatWithAgntInConsole(kernel).GetAwaiter().GetResult();
+        }
     }
 }
