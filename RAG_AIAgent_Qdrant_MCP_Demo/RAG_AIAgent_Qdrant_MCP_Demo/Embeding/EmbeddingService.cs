@@ -15,7 +15,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.Embeding
         public EmbeddingService(Kernel kernel, IDataLoader dataLoader, IVectorStoreService vectorStoreService)
         {
             _kernel = kernel;
-            _embeddingGenerator = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>(); ;
+            _embeddingGenerator = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
             _dataLoader = dataLoader;
             _vectorStoreService = vectorStoreService;
         }

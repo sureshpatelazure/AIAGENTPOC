@@ -18,7 +18,6 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo
     {
         public static void CreateAndStoreEmbedding(Kernel kernel ,IConfiguration configuration)
         {
-           
             var qdranturi = configuration.GetSection("vectorstore:qdrant:uri").Get<string>();
             var qdrantapikey = configuration.GetSection("vectorstore:qdrant:apikey").Get<string>();
             var collectionname = configuration.GetSection("files:pdffiles:IndianBailJudgments:collectionname").Get<string>();
@@ -59,11 +58,17 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo
 
         }
 
-        public static void ChatWithAIAgent(Kernel kernel)
+        public static void ChatWithAIAgent(Kernel kernel, IConfiguration configuration)
         {
-            AIAgent.AIAgent aIAgent = new AIAgent.AIAgent();
-            aIAgent.CreateAIAgent(kernel, "C:\\GenAI\\GitHub Project\\RAG_AIAgent_Qdrant_MCP_Demo\\RAG_AIAgent_Qdrant_MCP_Demo\\AIAgent\\ragdemo.yaml");
-            aIAgent.ChatWithAgntInConsole(kernel).GetAwaiter().GetResult();
+            string yamlFilePath = "C:\\GenAI\\GitHub Project\\RAG_AIAgent_Qdrant_MCP_Demo\\RAG_AIAgent_Qdrant_MCP_Demo\\AIAgent\\ragdemo.yaml";
+            var qdranturi = configuration.GetSection("vectorstore:qdrant:uri").Get<string>();
+            var qdrantapikey = configuration.GetSection("vectorstore:qdrant:apikey").Get<string>();
+            var collectionname = configuration.GetSection("files:pdffiles:IndianBailJudgments:collectionname").Get<string>();
+
+            QdrantVectorStoreService vectorStoreService = new QdrantVectorStoreService(kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>(), qdranturi, qdrantapikey, collectionname);  
+            AIAgent.AIAgent aIAgent = new AIAgent.AIAgent(kernel,yamlFilePath, vectorStoreService);
+            aIAgent.CreateAIAgent();
+            aIAgent.ChatWithAgntInConsole().GetAwaiter().GetResult();
         }
     }
 }

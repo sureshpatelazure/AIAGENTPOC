@@ -9,8 +9,8 @@ var builder = new ConfigurationBuilder()
 IConfiguration configuration = builder.Build();
 
 Kernel kernel = ApplicationDemo.CreateSemanticKernel(configuration);
-
-ApplicationDemo.ChatWithAIAgent(kernel);
+//
+ApplicationDemo.ChatWithAIAgent(kernel, configuration);
 //ApplicationDemo.CreateAndStoreEmbedding(kernel, configuration); 
 
 //////

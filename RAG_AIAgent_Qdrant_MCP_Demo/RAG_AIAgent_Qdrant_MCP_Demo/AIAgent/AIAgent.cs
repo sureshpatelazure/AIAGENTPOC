@@ -1,6 +1,9 @@
-﻿using Microsoft.SemanticKernel;
+﻿using Microsoft.Extensions.AI;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Data;
+using RAG_AIAgent_Qdrant_MCP_Demo.VectorStore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +15,42 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.AIAgent
 {
     public class AIAgent
     {
+        private readonly Kernel _kernel;  
         private ChatCompletionAgent _chatCompletionAgent;
         private ChatHistoryAgentThread _chatHistoryAgentThread;
-        public void CreateAIAgent(Kernel kernel,string yamlfilePath)
+        private readonly QdrantVectorStoreService _vectorStoreService;
+        private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
+        private string _yamlfilePath;  
+
+        public AIAgent(Kernel kernel, string yamlfilePath , QdrantVectorStoreService vectorStoreService)
+        {
+            _kernel = kernel;
+            _vectorStoreService = vectorStoreService;
+            _yamlfilePath = yamlfilePath;   
+            _embeddingGenerator = _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>(); ;
+        }   
+        public void CreateAIAgent()
         {
             _chatHistoryAgentThread = new ChatHistoryAgentThread();
 
-            var yamlContent = ReadYamlContent(yamlfilePath);
+            var yamlContent = ReadYamlContent(_yamlfilePath);
             var yamlData = ReadYaml(yamlContent);
 
             PromptTemplateConfig templateConfig = new PromptTemplateConfig(yamlContent);
             KernelPromptTemplateFactory templateFactory = new KernelPromptTemplateFactory();
 
+            #pragma warning disable SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+            var textSearch = new VectorStoreTextSearch<DataLoader.DataContent>(_vectorStoreService.Collection, _embeddingGenerator);
+            #pragma warning restore SKEXP0001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
+            var searchPlugin = textSearch.CreateWithGetTextSearchResults("SearchPlugin");
+            _kernel.Plugins.Add(searchPlugin);
+
+
+            //kernel.Plugins.Add(searchPlugin);
             _chatCompletionAgent = new(templateConfig, templateFactory)
             {
-                Kernel = kernel,
+                Kernel = _kernel,
                 Arguments = new KernelArguments(
                      new PromptExecutionSettings
                      {
@@ -37,7 +61,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.AIAgent
             };
         }
 
-        public async Task ChatWithAgntInConsole(Kernel kernel)
+        public async Task ChatWithAgntInConsole()
         {
             if (_chatCompletionAgent == null)
             {
