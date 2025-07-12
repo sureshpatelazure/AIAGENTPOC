@@ -5,12 +5,6 @@ using RAG_AIAgent_Qdrant_MCP_Demo.DataLoader;
 using RAG_AIAgent_Qdrant_MCP_Demo.Embeding;
 using RAG_AIAgent_Qdrant_MCP_Demo.SemanticKernel;
 using RAG_AIAgent_Qdrant_MCP_Demo.VectorStore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RAG_AIAgent_Qdrant_MCP_Demo
 {

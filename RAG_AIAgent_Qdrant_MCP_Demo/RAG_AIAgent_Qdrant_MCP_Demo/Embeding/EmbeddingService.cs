@@ -7,7 +7,6 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.Embeding
 {
     public class EmbeddingService
     {
-
         private readonly Kernel _kernel;
         private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
         private readonly IDataLoader _dataLoader;

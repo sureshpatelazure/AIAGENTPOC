@@ -17,7 +17,6 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
             {
                 foreach (Page page in document.GetPages())
                 {
-
                     var blocks = DefaultPageSegmenter.Instance.GetBlocks(page.GetWords());
 
                     foreach (var block in blocks)
@@ -85,7 +84,6 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
                     dataContents.Add(record);
                 }
             }
-
             return dataContents;
         }
     }
