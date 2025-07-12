@@ -6,6 +6,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 {
     public class PDFLoader : IDataLoader
     {
+        public ulong _keyCounter = 0;
         public async Task<List<DataContent>> LoadData(string filePath, int blockDivision, int batchSize)
         {
             List<RawContent> rawContents = new();
@@ -52,7 +53,6 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 
             List<DataContent> dataContents = new();
 
-            ulong counter = 0;
             foreach (var batch in batches)
             {
                 var textContentTasks = batch.Select(async content =>
@@ -75,7 +75,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 
                 var records = textContent.Select(content => new DataContent()
                 {
-                    Key = ++counter,
+                    Key = ++_keyCounter,
                     Text = content.Text,
                 });
 

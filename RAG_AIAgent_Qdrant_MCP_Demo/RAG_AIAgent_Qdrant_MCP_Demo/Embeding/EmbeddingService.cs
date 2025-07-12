@@ -22,12 +22,10 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.Embeding
 
         public void UploadEmbedding(string[] filePaths, int blockDivistion, int batchSize)
         {
-           
-            PDFLoader pDFLoader = new PDFLoader();
-            //var qdrantservice = new QdrantVectorStoreService(_embeddingGenerator,_vectorDbUri, _vectorApiKey, collectionName);   
-
+            int counter = 0;    
             foreach (var path in filePaths)
             {
+                Console.WriteLine($"Processing file {++counter} of {filePaths.Length}: {path}");    
                 var dataContent = _dataLoader.LoadData(path, blockDivistion, batchSize).GetAwaiter().GetResult();
                 _vectorStoreService.UpSert(dataContent).GetAwaiter().GetResult();
             }

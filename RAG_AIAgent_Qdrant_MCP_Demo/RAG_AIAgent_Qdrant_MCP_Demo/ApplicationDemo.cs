@@ -27,9 +27,17 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo
             IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
             IVectorStoreService vectorStoreService = new QdrantVectorStoreService(_embeddingGenerator, qdranturi , qdrantapikey , collectionname);
 
+            var folderPath = configuration.GetSection("files:pdffiles:IndianBailJudgments:folderPath").Get<string>();
             var filePaths = configuration.GetSection("files:pdffiles:IndianBailJudgments:filepath").Get<string[]>();
             var batchSize = configuration.GetValue<int>("files:pdffiles:IndianBailJudgments:batchSize");
             var batchDivision = configuration.GetValue<int>("files:pdffiles:IndianBailJudgments:batchDivision");
+
+            var folderFiles = Directory.GetFiles(folderPath);
+            if(filePaths == null || filePaths.Length == 0)
+            {
+                filePaths = new string[0];
+            }   
+            filePaths = filePaths.Concat(folderFiles).ToArray();
 
             EmbeddingService embeddingService = new EmbeddingService(kernel, pDFLoader , vectorStoreService);
             embeddingService.UploadEmbedding(filePaths, batchDivision, batchSize);
