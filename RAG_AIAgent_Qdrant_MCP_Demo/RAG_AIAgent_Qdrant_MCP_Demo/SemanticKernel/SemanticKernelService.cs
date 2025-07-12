@@ -1,12 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RAG_AIAgent_Qdrant_MCP_Demo.SemanticKernelCore
+namespace RAG_AIAgent_Qdrant_MCP_Demo.SemanticKernel
 {
     public class SemanticKernelService
     {

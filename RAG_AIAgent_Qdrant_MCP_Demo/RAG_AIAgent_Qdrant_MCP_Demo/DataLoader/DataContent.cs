@@ -1,14 +1,9 @@
 ﻿using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 {
-    public sealed class TextSnippet
+    public sealed class DataContent
     {
         [VectorStoreKey]
         [TextSearchResultName]

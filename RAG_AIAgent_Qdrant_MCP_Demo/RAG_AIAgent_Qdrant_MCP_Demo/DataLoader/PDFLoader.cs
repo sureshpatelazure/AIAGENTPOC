@@ -1,49 +1,48 @@
-﻿using Microsoft.Extensions.VectorData;
-using Microsoft.SemanticKernel.ChatCompletion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using UglyToad.PdfPig;
+﻿using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 using UglyToad.PdfPig.DocumentLayoutAnalysis.PageSegmenter;
 
 namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 {
-    public class PDFLoader
+    public class PDFLoader : IDataLoader
     {
-        public async Task <List<List<TextSnippet>>> LoadPDF(string filePath, int batchSize)
+        public async Task<List<DataContent>> LoadData(string filePath, int blockDivision, int batchSize)
         {
-            List<RawContent> rawContents = new List<RawContent>();
+            List<RawContent> rawContents = new();
 
-            int pageCounter = 1;
+            Int16 pageCounter = 1;
 
             using (PdfDocument document = PdfDocument.Open(filePath))
             {
-                foreach (Page page in document.GetPages()) { 
+                foreach (Page page in document.GetPages())
+                {
 
                     var blocks = DefaultPageSegmenter.Instance.GetBlocks(page.GetWords());
 
-                    foreach (var block in blocks) {
+                    foreach (var block in blocks)
+                    {
                         if (!string.IsNullOrEmpty(block.Text))
                         {
-                            int mid = block.Text.Length / 2;
-                            string firstHalf = block.Text.Substring(0, mid);
-                            string secondHalf = block.Text.Substring(mid);
+                            int textLength = block.Text.Length;
+                            int partSize = textLength / blockDivision;
+                            int remainder = textLength % blockDivision;
+                            int start = 0;
 
-                            rawContents.Add(new RawContent
+                            for (int i = 0; i < blockDivision; i++)
                             {
-                                Text = firstHalf,
-                                PageNumber = pageCounter++
-                            });
+                                // Distribute the remainder among the first 'remainder' parts
+                                int currentPartSize = partSize + (i < remainder ? 1 : 0);
 
-                            rawContents.Add(new RawContent
-                            {
-                                Text = secondHalf,
-                                PageNumber = pageCounter++
-                            });
+                                string part = block.Text.Substring(start, currentPartSize);
+
+                                rawContents.Add(new RawContent
+                                {
+                                    Text = part,
+                                    PageNumber = pageCounter++
+                                });
+
+                                start += currentPartSize;
+                            }
                         }
                     }
                 }
@@ -51,7 +50,7 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
 
             var batches = rawContents.Chunk(batchSize);
 
-            List<List<TextSnippet>> textSnippetList = new List<List<TextSnippet>>();
+            List<DataContent> dataContents = new();
 
             ulong counter = 0;
             foreach (var batch in batches)
@@ -73,26 +72,21 @@ namespace RAG_AIAgent_Qdrant_MCP_Demo.DataLoader
                 });
 
                 var textContent = await Task.WhenAll(textContentTasks).ConfigureAwait(false);
-                
-                var records = textContent.Select(content => new TextSnippet()
+
+                var records = textContent.Select(content => new DataContent()
                 {
                     Key = ++counter,
                     Text = content.Text,
                 });
 
-                textSnippetList.Add(records.ToList());
+                // Add each record individually
+                foreach (var record in records)
+                {
+                    dataContents.Add(record);
+                }
             }
 
-            return textSnippetList;
+            return dataContents;
         }
-    }
-
-    public sealed class RawContent
-    {
-        public string? Text { get; init; }
-
-        public ReadOnlyMemory<byte>? Image { get; init; }
-
-        public int PageNumber { get; init; }
     }
 }
